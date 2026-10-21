@@ -175,9 +175,9 @@ def fold_aggregate(im_list: Sequence, measure: str | BinaryMeasure,
     how
         Intra-fold aggregation operator: ``'micro'``, ``'macro'``, or ``'exemplar'``.
     pooling
-        ``'pooled'`` applies the $\\Upsigma_{\\mathrm{k}}$ reduction over fold cell matrices
-        prior to computing the non-linear ratio; ``'averaged'`` computes the measure
-        separately in each fold and returns the sample-weighted mean.
+        ``'pooled'`` concatenates the folds' predictions before computing the
+        non-linear ratio, so folds may differ in size; ``'averaged'`` computes the
+        measure separately in each fold and returns the sample-weighted mean.
     convention
         Convention for undefined entries (``'exclude'``, ``'zero'``, etc.).
     """
@@ -191,8 +191,13 @@ def fold_aggregate(im_list: Sequence, measure: str | BinaryMeasure,
         return float(np.average(vals, weights=weights))
 
     if pooling == "pooled":
+        # Concatenate the folds' cell matrices (one row per test example), so the
+        # folds may differ in size. Every example sits in exactly one test fold, hence
+        # this is the measure on the pooled predictions, as in the companion paper.
         cell_tuples = [im.cells for im in im_list]
-        TP, FP, FN, TN = sigma_k(cell_tuples)
+        if len({c[0].shape[1] for c in cell_tuples}) != 1:
+            raise ValueError("all folds must have the same number of classes or labels")
+        TP, FP, FN, TN = (np.vstack([c[i] for c in cell_tuples]) for i in range(4))
         if how == "micro":
             return float(meas(sigma_1(TP), sigma_1(FP), sigma_1(FN), sigma_1(TN)))
         if how in ("macro", "weighted"):

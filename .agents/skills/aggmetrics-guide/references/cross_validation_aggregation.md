@@ -15,7 +15,7 @@ For non-linear measures (such as Matthews Correlation Coefficient, F1-score with
 ### The Algebraic Solution: Inter-Fold Pooling ($\Sigma_k$)
 The framework introduces the fourth reduction operator $\Sigma_k$:
 $$\text{Score}_{\text{pooled}} = M\left( \sum_{k=1}^K \text{Counts}(\text{Fold}_k) \right)$$
-- Sums the raw confusion matrix counts across all $K$ test folds into a single global contingency matrix, and applies the metric formula once.
+- Concatenates the predictions of all $K$ test folds (which may differ in size) into one evaluation, so the raw confusion counts are pooled into a single global contingency matrix and the metric formula is applied once.
 - Eliminates fold-level undefined denominators.
 - Preserves asymptotic consistency.
 
@@ -33,7 +33,7 @@ $$\text{Score}_{\text{pooled}} = M\left( \sum_{k=1}^K \text{Counts}(\text{Fold}_
 ```python
 import numpy as np
 from aggmetrics import IndicatorMatrix
-from aggmetrics.aggregation import fold_aggregate, sigma_k
+from aggmetrics.aggregation import fold_aggregate
 
 # Assume we have 5 folds of cross-validation
 # Each fold represented as an IndicatorMatrix

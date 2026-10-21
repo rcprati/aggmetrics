@@ -31,6 +31,16 @@ jobs:
       - name: Coverage (lines and branches must stay at 100%)
         if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
         run: python -m pytest --cov=aggmetrics --cov-report=term-missing -q
+      - name: Execute the example notebooks
+        if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
+        run: |
+          python -m pip install nbmake matplotlib
+          python -m pytest --nbmake examples/notebooks -q
       - name: Run the worked examples
         shell: bash
         run: python examples/quickstart.py > /dev/null
+      - name: Run the agent skill example
+        shell: bash
+        run: |
+          python .agents/skills/aggmetrics-guide/examples/agent_session_example.py > /dev/null
+          python .agents/skills/aggmetrics-guide/examples/quickstart_recipes.py > /dev/null
