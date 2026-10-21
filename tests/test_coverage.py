@@ -366,29 +366,27 @@ def test_sigma_k_requires_at_least_one_fold():
 
 @pytest.fixture
 def folds():
+    """Three folds of unequal size, as k-fold gives whenever n is not a multiple of k."""
     rng = np.random.default_rng(3)
-    ys = [rng.integers(0, 3, 8) for _ in range(3)]
-    ps = [np.where(rng.random(8) < 0.6, y, rng.integers(0, 3, 8)) for y in ys]
+    ys = [rng.integers(0, 3, n) for n in (8, 7, 9)]
+    ps = [np.where(rng.random(len(y)) < 0.6, y, rng.integers(0, 3, len(y))) for y in ys]
     ims = [IndicatorMatrix(y, p, task="multiclass", n_classes=3) for y, p in zip(ys, ps)]
     return ims, IndicatorMatrix(np.concatenate(ys), np.concatenate(ps),
                                 task="multiclass", n_classes=3)
 
 
-@pytest.mark.parametrize("how", ["micro", "macro", "weighted"])
+@pytest.mark.parametrize("how", ["micro", "macro", "weighted", "exemplar"])
 def test_pooling_folds_equals_evaluating_the_concatenated_data(folds, how):
     ims, whole = folds
     assert fold_aggregate(ims, "f1", how, pooling="pooled") == pytest.approx(
         whole.compute("f1", how))
 
 
-def test_pooled_exemplar_sums_the_cells_of_matching_examples():
-    rng = np.random.default_rng(4)
-    ims = [IndicatorMatrix((rng.random((6, 4)) < 0.5).astype(float),
-                           (rng.random((6, 4)) < 0.5).astype(float), task="multilabel")
-           for _ in range(2)]
-    tp, fp, fn = (sum(c[i] for c in (im.cells for im in ims)).sum(axis=1) for i in range(3))
-    expected = np.nanmean([_f1(a, b, c) for a, b, c in zip(tp, fp, fn)])
-    assert fold_aggregate(ims, "f1", "exemplar", pooling="pooled") == pytest.approx(expected)
+def test_pooled_folds_must_share_the_label_space():
+    a = IndicatorMatrix([0, 1, 1], [0, 1, 0], task="multiclass", n_classes=2)
+    b = IndicatorMatrix([0, 1, 2], [0, 1, 2], task="multiclass", n_classes=3)
+    with pytest.raises(ValueError, match="same number of classes"):
+        fold_aggregate([a, b], "f1", "macro")
 
 
 def test_averaged_pooling_is_the_sample_weighted_mean_of_fold_values(folds):
@@ -581,3 +579,11 @@ def test_inference_rejects_a_formula_that_changes_between_the_fit_and_the_check(
         return tp / (tp + fp) if calls["n"] <= 40 else np.nan   # fit set, then check set
 
     assert infer_properties(drifting).decomposable is False
+
+
+def test_sigma_k_sums_cell_matrices_elementwise():
+    a = cells(np.array([[1, 0], [0, 1]]), np.array([[1, 0], [1, 1]]))
+    b = cells(np.array([[1, 1], [0, 0]]), np.array([[0, 1], [0, 0]]))
+    total = sigma_k([a, b])
+    for k in range(4):
+        assert (total[k] == a[k] + b[k]).all()
