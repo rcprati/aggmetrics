@@ -150,9 +150,21 @@ python -m pytest tests/test_theory.py -v
 | `test_theorem3_mae_and_mse_as_cost_matrices` | ordinal losses as cost matrices |
 | `test_inference_reproduces_every_annotation` | inference recovers all 21 analytic annotations |
 
-207 tests, no skips, 100% line and branch coverage.
+209 tests, no skips, 100% line and branch coverage.
 
 ## Examples
+
+Notebooks, executed and checked in continuous integration. Each starts from a problem a
+practitioner recognises, shows what the usual tools report, and then what `aggmetrics` reports.
+
+| Notebook | What it shows | |
+|---|---|---|
+| [01 The floor trap](examples/notebooks/01_floor_trap.ipynb) | A classifier wrong on every example scores 0.998 on label accuracy with 1000 classes | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/01_floor_trap.ipynb) |
+| [02 Micro, macro and imbalance](examples/notebooks/02_micro_macro_imbalance.ipynb) | Micro-F1 equals accuracy; micro-MCC outside the per-class range; the hidden choice for 0/0 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/02_micro_macro_imbalance.ipynb) |
+| [03 Multilabel: the ranking depends on the operator](examples/notebooks/03_multilabel_ranking.ipynb) | Three models on *yeast* ranked under 18 measure-operator combinations | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/03_multilabel_ranking.ipynb) |
+
+To run them locally: `pip install "aggmetrics[examples]" jupyter`. A short script version of
+the tour is in `examples/quickstart.py`:
 
 ```bash
 python examples/quickstart.py

@@ -183,3 +183,4 @@ mcc_averaged = fold_aggregate(folds, measure="mcc", how="macro", pooling="averag
 - [Diagnostics Reference](./references/diagnostics.md): Detailed breakdown of diagnostic rules, OvR skew drift, and evaluation pitfalls.
 - [T-Norms Reference](./references/tnorms_and_soft_labels.md): Soft label evaluation and marginal consistency.
 - [Code Examples](./examples/quickstart_recipes.py): Executable script patterns for all evaluation tasks.
+- [Worked agent session](./examples/agent_session_example.md): A request, the recipes used, the real output, and the answer an agent gives (runnable: [`agent_session_example.py`](./examples/agent_session_example.py)).
