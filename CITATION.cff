@@ -7,7 +7,8 @@ authors:
     given-names: Ronaldo C.
     orcid: "https://orcid.org/0000-0001-8597-4987"
     affiliation: "Universidade Federal do ABC (UFABC)"
-version: 0.1.0.dev0
+version: 0.1.0
+date-released: 2026-10-21
 license: BSD-3-Clause
 repository-code: "https://github.com/rcprati/aggmetrics"
 keywords:
