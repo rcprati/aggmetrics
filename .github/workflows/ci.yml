@@ -28,6 +28,9 @@ jobs:
         run: python -m pytest tests/test_theory.py -q
       - name: Doctests
         run: python -m pytest --doctest-modules aggmetrics -q
+      - name: Coverage (lines and branches must stay at 100%)
+        if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
+        run: python -m pytest --cov=aggmetrics --cov-report=term-missing -q
       - name: Run the worked examples
         shell: bash
         run: python examples/quickstart.py > /dev/null

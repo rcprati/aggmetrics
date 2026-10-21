@@ -100,8 +100,10 @@ class IndicatorMatrix:
                 self.P = yp.astype(float)
         else:
             if yt.ndim == 1:
+                # a score matrix fixes the number of classes even when some of
+                # them never occur in y_true
                 m = n_classes or (int(max(yt.max(), np.asarray(yp).max() if yp.ndim == 1
-                                          else 0)) + 1)
+                                          else yp.shape[1] - 1)) + 1)
                 self.Y = _one_hot(yt, m) if task != "binary" else yt.reshape(-1, 1).astype(float)
             else:
                 self.Y = yt.astype(float)

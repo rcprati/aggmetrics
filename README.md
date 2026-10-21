@@ -150,7 +150,7 @@ python -m pytest tests/test_theory.py -v
 | `test_theorem3_mae_and_mse_as_cost_matrices` | ordinal losses as cost matrices |
 | `test_inference_reproduces_every_annotation` | inference recovers all 21 analytic annotations |
 
-138 tests, no skips.
+207 tests, no skips, 100% line and branch coverage.
 
 ## Examples
 

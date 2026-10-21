@@ -26,7 +26,7 @@ dependencies = ["numpy>=1.20"]
 [project.optional-dependencies]
 sklearn = ["scikit-learn>=1.0"]
 frame = ["pandas>=1.3"]
-test = ["pytest>=7.0", "scikit-learn>=1.0", "pandas>=1.3"]
+test = ["pytest>=7.0", "pytest-cov>=4.0", "scikit-learn>=1.0", "pandas>=1.3"]
 docs = ["sphinx>=5.0", "furo"]
 all = ["scikit-learn>=1.0", "pandas>=1.3"]
 
@@ -43,3 +43,11 @@ include = ["aggmetrics*"]
 testpaths = ["tests"]
 pythonpath = ["."]
 filterwarnings = ["error::DeprecationWarning"]
+
+[tool.coverage.run]
+branch = true
+source = ["aggmetrics"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true

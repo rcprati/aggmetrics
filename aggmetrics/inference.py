@@ -119,8 +119,8 @@ def _fit_linear_fractional(fn: Formula, rng: np.random.Generator,
     sol = Vt[-1]
     a, b = sol[:4], sol[4:]
 
-    if np.max(np.abs(b)) < 1e-10:          # denominator collapsed: not of this form
-        return None
+    if np.max(np.abs(b)) < 1e-10:  # pragma: no cover - defensive: V has full column
+        return None                # rank, so a null vector with b = 0 would force a = 0
     k = b[np.argmax(np.abs(b))]
     a, b = a / k, b / k
 
