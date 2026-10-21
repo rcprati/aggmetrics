@@ -214,13 +214,6 @@ def _fowlkes_mallows(tp, fp, fn, tn):
     return math.sqrt(max(p * r, 0.0))
 
 
-def _youden_like_ratio(num_fn, den_fn):
-    def f(tp, fp, fn, tn):
-        a, b = num_fn(tp, fp, fn, tn), den_fn(tp, fp, fn, tn)
-        return _ratio(a, b)
-    return f
-
-
 # ---------------------------------------------------------------------------
 # Registry
 # ---------------------------------------------------------------------------
