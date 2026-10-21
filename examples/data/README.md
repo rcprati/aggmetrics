@@ -68,3 +68,31 @@ licence. The file is the unmodified `winequality-red.csv` from the zip distribut
 [Dataset]. UCI Machine Learning Repository. <https://doi.org/10.24432/C56S3T>. The associated paper
 is "Modeling wine preferences by data mining from physicochemical properties", *Decision Support
 Systems*, 2009.
+
+## `cifar10lt/predictions.npz`
+
+Predictions of ResNet-32 classifiers trained on **CIFAR-10-LT** (a long-tailed version of CIFAR-10,
+imbalance ratio 100), together with the true labels: no images and no logits. Used by
+`notebooks/06_long_tail_images.ipynb`.
+
+| Array | Shape | Contents |
+|---|---|---|
+| `loss`, `seed` | (10,) | the training loss (`ce` or `logit_adj`) and seed of each of the 10 runs |
+| `y_test` | (10000,) | labels of the CIFAR-10 test set (balanced: 1000 per class), the same for every run |
+| `pred_test` | (10, 10000) | predicted class of each run on the test set |
+| `y_val`, `pred_val` | (10, 1241) | labels and predictions on the long-tailed validation split of each run (each seed draws its own split) |
+| `class_counts` | (10, 10) | training examples per class for each run |
+| `meta` | scalar string | JSON with the training setup |
+
+**Origin.** Models trained by the repository author with the protocol of the ECL project: ResNet-32,
+imbalance ratio 100, 200 epochs, learning rate 0.1, weight decay 1e-4, batch size 128, the last
+checkpoint evaluated, and a validation split disjoint from the training examples. The two losses are
+the cross-entropy and the logit-adjusted loss, five seeds each, no cost matrix. The predictions are the
+`argmax` of the logits of those checkpoints.
+
+**Citations.** CIFAR-10: A. Krizhevsky, *Learning Multiple Layers of Features from Tiny Images*, 2009.
+Long-tailed benchmark: K. Cao, C. Wei, A. Gaidon, N. Arechiga and T. Ma, Learning Imbalanced Datasets
+with Label-Distribution-Aware Margin Loss, NeurIPS 2019. Logit adjustment: A. K. Menon, S. Jayasumana,
+A. S. Rawat, H. Jain, A. Veit and S. Kumar, Long-tail learning via logit adjustment, ICLR 2021.
+
+These arrays are model outputs and labels, not the CIFAR data, which are not redistributed here.
