@@ -58,7 +58,7 @@ $$\theta^* = \frac{\beta + \delta}{\alpha + \beta + \gamma + \delta}$$
   - `recall`: $\theta^* = 0.0$ (predict all positive)
   - `specificity`: $\theta^* = 1.0$ (predict all negative)
 
-### 5. The Micro-Macro Gap as Normalized Covariance (Corollary 5)
+### 5. The Micro-Macro Gap as Normalized Covariance (Corollary 6)
 - For any **aggregation-decomposable measure**, the difference between micro-averaging and macro-averaging is mathematically identical to the sample covariance between per-class denominators $w_j$ and per-class values $v_j$, normalized by the mean denominator $\bar{w}$:
 $$\text{Gap} = \text{Micro} - \text{Macro} = \frac{\operatorname{Cov}(w, v)}{\bar{w}}$$
 - A positive gap indicates the model performs systematically better on high-volume/prevalent classes.

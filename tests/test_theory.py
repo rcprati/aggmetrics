@@ -114,16 +114,16 @@ def test_counterexample_matches_published_values():
 
 
 # ---------------------------------------------------------------------------
-# Theorem 2: the product t-norm is the unique marginally consistent one
+# Theorem 3 (Section 7.3): the product t-norm is the unique marginally consistent one
 # ---------------------------------------------------------------------------
 
-def test_theorem2_product_is_uniquely_marginally_consistent():
+def test_theorem3_product_is_uniquely_marginally_consistent():
     assert marginal_defect("product") == pytest.approx(0.0, abs=1e-12)
     for other in ("godel", "lukasiewicz"):
         assert marginal_defect(other) > 0.1
 
 
-def test_theorem2_partition_follows():
+def test_corollary3_partition_follows():
     """Marginal consistency implies the four cells sum to one entrywise."""
     from aggmetrics.tnorms import soft_cells
     r = np.random.default_rng(3)
@@ -136,11 +136,11 @@ def test_theorem2_partition_follows():
 
 
 # ---------------------------------------------------------------------------
-# Theorem 5: micro-collapse on single-label data
+# Theorem 2 (Section 7.2): micro-collapse on single-label data
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("m", [2, 3, 5, 10])
-def test_theorem5_micro_collapse(m):
+def test_theorem2_micro_collapse(m):
     y, yhat = random_multiclass(n=300, m=m, seed=m)
     im = IndicatorMatrix(y, yhat, task="multiclass")
     acc = im.accuracy()
@@ -156,7 +156,7 @@ def test_micro_collapse_does_not_hold_in_multilabel():
 
 
 # ---------------------------------------------------------------------------
-# Proposition 5: Bayes threshold and ERM-consistency
+# Proposition 9 (Section 7.9): Bayes threshold and ERM-consistency
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("name,expected", [
@@ -165,11 +165,11 @@ def test_micro_collapse_does_not_hold_in_multilabel():
     ("recall", 0.0),
     ("specificity", 1.0),
 ])
-def test_proposition5_thresholds(name, expected):
+def test_proposition9_thresholds(name, expected):
     assert get_measure(name).bayes_threshold() == pytest.approx(expected, abs=1e-12)
 
 
-def test_proposition5_erm_consistency_flags():
+def test_proposition9_erm_consistency_flags():
     assert get_measure("label_accuracy").erm_consistent() is True
     assert get_measure("error_rate").erm_consistent() is True
     assert get_measure("recall").erm_consistent() is False
@@ -179,7 +179,7 @@ def test_proposition5_erm_consistency_flags():
     assert get_measure("f1").bayes_threshold() is None
 
 
-def test_proposition5_threshold_is_the_empirical_optimum():
+def test_proposition9_threshold_is_the_empirical_optimum():
     """The predicted threshold maximises the population objective."""
     r = np.random.default_rng(11)
     eta = r.random(4000)
@@ -201,11 +201,11 @@ def test_proposition5_threshold_is_the_empirical_optimum():
 
 
 # ---------------------------------------------------------------------------
-# Proposition 7: attainable floors under one-hot encoding
+# Proposition 5 (Section 7.4): attainable floors under one-hot encoding
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("m", [3, 4, 5, 10])
-def test_proposition7_floors(m):
+def test_proposition5_floors(m):
     n = 200
     y = np.arange(n) % m
     yhat = (y + 1) % m                      # every prediction wrong
@@ -241,7 +241,7 @@ def test_gmean_is_complete_yet_reaches_zero():
 
 
 # ---------------------------------------------------------------------------
-# Proposition 2: one-vs-rest recall is prior-free, specificity is not
+# Proposition 6 (Section 7.6): one-vs-rest recall is prior-free, specificity is not
 # ---------------------------------------------------------------------------
 
 def _ovr_from_rates(pi, R, n=2_000_000):
@@ -256,7 +256,7 @@ def _ovr_from_rates(pi, R, n=2_000_000):
     return out
 
 
-def test_proposition2_recall_prior_free_specificity_not():
+def test_proposition6_recall_prior_free_specificity_not():
     R = np.array([[0.80, 0.15, 0.05],
                   [0.30, 0.60, 0.10],
                   [0.05, 0.25, 0.70]])
@@ -270,7 +270,7 @@ def test_proposition2_recall_prior_free_specificity_not():
     assert max(macro_spec) - min(macro_spec) > 1e-3     # demonstrably not
 
 
-def test_proposition2_uniform_error_condition_restores_invariance():
+def test_proposition6_uniform_error_condition_restores_invariance():
     """Specificity is prior-free iff R[k,j] does not depend on k."""
     c = np.array([0.10, 0.15, 0.05])
     m = 3
@@ -290,12 +290,12 @@ def test_proposition2_uniform_error_condition_restores_invariance():
 
 
 # ---------------------------------------------------------------------------
-# Corollary 5: the micro-macro gap as a normalised covariance
+# Corollary 6 (Section 7.7): the micro-macro gap as a normalised covariance
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("name", ["recall", "precision", "f1", "jaccard",
                                   "label_accuracy"])
-def test_corollary5_gap_is_normalised_covariance(name):
+def test_corollary6_gap_is_normalised_covariance(name):
     Y, P = random_multilabel(n=200, m=9, seed=5)
     im = IndicatorMatrix(Y, P, task="multilabel")
     d = micro_macro_gap(im, name)
@@ -303,7 +303,7 @@ def test_corollary5_gap_is_normalised_covariance(name):
     assert d["gap"] == pytest.approx(d["predicted_gap"], abs=1e-9)
 
 
-def test_corollary5_not_exact_for_non_decomposable():
+def test_corollary6_not_exact_for_non_decomposable():
     Y, P = random_multilabel(seed=6)
     im = IndicatorMatrix(Y, P, task="multilabel")
     d = micro_macro_gap(im, "balanced_accuracy")
@@ -312,10 +312,10 @@ def test_corollary5_not_exact_for_non_decomposable():
 
 
 # ---------------------------------------------------------------------------
-# Theorem 3: ordinal losses as cost-sensitive classification
+# Theorem 4 (Section 7.3): ordinal losses as cost-sensitive classification
 # ---------------------------------------------------------------------------
 
-def test_theorem3_mae_and_mse_as_cost_matrices():
+def test_theorem4_mae_and_mse_as_cost_matrices():
     m, n = 5, 400
     r = np.random.default_rng(7)
     y = r.integers(0, m, n)
@@ -343,7 +343,7 @@ def test_zero_one_cost_is_half_the_error_cells():
 
 
 # ---------------------------------------------------------------------------
-# Proposition 4: uniform-error condition and OvR skew drift
+# Proposition 6 (Section 7.6): uniform-error condition and OvR skew drift
 # ---------------------------------------------------------------------------
 
 def test_uniform_error_deviation_vanishes_for_uniform_errors():
@@ -405,7 +405,7 @@ def test_uniform_error_deviation_detects_asymmetric_errors():
 
 
 # ---------------------------------------------------------------------------
-# Remark 1: Degrees of freedom, orthogonal basis, and non-redundant suites
+# Proposition 3 and Remark 2 (Section 7.2): degrees of freedom, orthogonal basis, non-redundant suites
 # ---------------------------------------------------------------------------
 
 def test_degrees_of_freedom_and_canonical_coordinates():
@@ -443,7 +443,7 @@ def test_degrees_of_freedom_and_canonical_coordinates():
 
 
 # ---------------------------------------------------------------------------
-# Ordinal cumulative matrix representation (Eq. 18 & Section 3.3)
+# Ordinal cumulative matrix representation (Eq. 18 and Section 6.4)
 # ---------------------------------------------------------------------------
 
 def test_ordinal_cumulative_representation():
@@ -486,7 +486,7 @@ def test_ordinal_cumulative_representation():
 
 
 # ---------------------------------------------------------------------------
-# Proposition 3: Universal Pareto dominance across monotonic measures
+# Section 7.11 (resting on Proposition 3): universal Pareto dominance across monotonic measures
 # ---------------------------------------------------------------------------
 
 def test_pareto_dominance_binary_and_multiclass():

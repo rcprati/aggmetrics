@@ -141,13 +141,13 @@ python -m pytest tests/test_theory.py -v
 |---|---|
 | `test_theorem1_holds_for_decomposable` | micro = denominator-weighted macro, the 14 decomposable measures × 3 samples |
 | `test_theorem1_fails_for_non_decomposable` | the identity has no extension beyond that class |
-| `test_theorem2_product_is_uniquely_marginally_consistent` | only the product t-norm preserves marginals |
-| `test_theorem5_micro_collapse` | micro-P = micro-R = micro-F₁ = accuracy, single-label |
-| `test_proposition5_thresholds` | Bayes threshold `(β+δ)/(α+β+γ+δ)` |
-| `test_proposition7_floors` | attainable floors under one-hot encoding |
-| `test_proposition2_recall_prior_free_specificity_not` | one-vs-rest skew behaviour |
-| `test_corollary5_gap_is_normalised_covariance` | the micro–macro gap identity |
-| `test_theorem3_mae_and_mse_as_cost_matrices` | ordinal losses as cost matrices |
+| `test_theorem3_product_is_uniquely_marginally_consistent` | only the product t-norm preserves marginals |
+| `test_theorem2_micro_collapse` | micro-P = micro-R = micro-F₁ = accuracy, single-label |
+| `test_proposition9_thresholds` | Bayes threshold `(β+δ)/(α+β+γ+δ)` |
+| `test_proposition5_floors` | attainable floors under one-hot encoding |
+| `test_proposition6_recall_prior_free_specificity_not` | one-vs-rest skew behaviour |
+| `test_corollary6_gap_is_normalised_covariance` | the micro–macro gap identity |
+| `test_theorem4_mae_and_mse_as_cost_matrices` | ordinal losses as cost matrices |
 | `test_inference_reproduces_every_annotation` | inference recovers all 21 analytic annotations |
 
 209 tests, no skips, 100% line and branch coverage.

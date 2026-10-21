@@ -1,14 +1,14 @@
 # Ordinal Classification & Cost-Sensitive Matrices Reference
 
-This reference details **Theorem 3** and Section 3.3 of the companion paper: the unification of ordinal classification losses (such as MAE and MSE) with cost-sensitive classification via indicator matrices.
+This reference details **Theorem 4** (Section 7.3) and Section 6.4 of the companion paper: the unification of ordinal classification losses (such as MAE and MSE) with cost-sensitive classification via indicator matrices.
 
 ---
 
-## 1. Theorem 3: Ordinal Losses as Cost Matrices
+## 1. Theorem 4: Ordinal Losses as Cost Matrices
 
 Traditional machine learning packages treat regression-like ordinal evaluation (MAE, MSE) as entirely separate paradigms from confusion matrix evaluation.
 
-**Theorem 3** proves that for an $m$-class ordinal problem evaluated on $n$ instances:
+**Theorem 4** proves that for an $m$-class ordinal problem evaluated on $n$ instances:
 $$\text{MAE} = \frac{1}{n} \sum_{i=1}^n |y_i - \hat{y}_i| = \frac{1}{n} \operatorname{cost}(C_{\text{MAE}})$$
 $$\text{MSE} = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2 = \frac{1}{n} \operatorname{cost}(C_{\text{MSE}})$$
 
