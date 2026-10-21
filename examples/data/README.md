@@ -20,6 +20,11 @@ Used by `notebooks/03_multilabel_ranking.ipynb`.
   (2417 instances, 103 numeric features, 14 labels, label cardinality 4.237, density 0.303,
   198 distinct label combinations) are those of this file, which was checked.
 
+**Not to be confused with the UCI "Yeast" dataset** (<https://archive.ics.uci.edu/dataset/110/yeast>,
+K. Nakai), which shares the name but is a different dataset: 1484 proteins, 8 features and a
+single class per protein (the cellular localisation site). OpenML also holds it, as `yeast`
+version 1, which is why the snippet below asks for `version=4`.
+
 The only conversion is that the label columns, stored as the strings `TRUE` and `FALSE` in the
 OpenML version, became 1 and 0:
 
