@@ -31,11 +31,24 @@ jobs:
       - name: Coverage (lines and branches must stay at 100%)
         if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
         run: python -m pytest --cov=aggmetrics --cov-report=term-missing -q
-      - name: Execute the example notebooks
+      - name: Execute the offline example notebooks
         if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
         run: |
           python -m pip install nbmake matplotlib
-          python -m pytest --nbmake examples/notebooks -q
+          python -m pytest --nbmake examples/notebooks/01_floor_trap.ipynb examples/notebooks/02_micro_macro_imbalance.ipynb -q
+      - name: Cache the OpenML data used by the multilabel notebook
+        if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
+        uses: actions/cache@v4
+        with:
+          path: ~/scikit_learn_data
+          key: openml-yeast-v4
+      # This notebook downloads data from OpenML, which is not always reachable from the
+      # runner, so a failure is reported without blocking the build.
+      - name: Execute the notebook that downloads data (non-blocking)
+        if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: python -m pytest --nbmake --nbmake-timeout=600 examples/notebooks/03_multilabel_ranking.ipynb -q
       - name: Build the documentation (warnings are errors)
         if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
         run: |

@@ -18,7 +18,9 @@ Code that cannot be reached (a defensive guard) is marked `# pragma: no cover` w
 reason.
 
 **Notebooks.** The notebooks in `examples/notebooks` are committed with their outputs and
-re-executed in continuous integration (`pytest --nbmake examples/notebooks`).
+re-executed in continuous integration (`pytest --nbmake examples/notebooks`). The multilabel
+notebook downloads *yeast* from OpenML, which is not always reachable from the CI runner, so
+that notebook is executed without blocking the build.
 
 **Documentation.**
 
