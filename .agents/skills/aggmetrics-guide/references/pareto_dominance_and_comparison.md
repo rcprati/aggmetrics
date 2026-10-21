@@ -1,14 +1,14 @@
 # Pareto Dominance & Universal Model Comparison
 
-This reference details **Proposition 3** of the companion paper: how canonical orthogonal coordinates determine model dominance across **all monotonic performance measures simultaneously**.
+This reference details **Section 7.11** of the companion paper (dominance relations, which rests on Proposition 3, the degrees-of-freedom bound): how canonical orthogonal coordinates determine model dominance across **all monotonic performance measures simultaneously**.
 
 ---
 
-## 1. The Core Theoretical Result (Proposition 3)
+## 1. The Core Theoretical Result (Section 7.11)
 
 In classification benchmarks, ranking models using a single scalar metric (e.g. F1, Accuracy, or MCC) often produces contradictory orderings: Model A wins under F1, but Model B wins under Balanced Accuracy.
 
-**Proposition 3 (Universal Pareto Dominance)** establishes that:
+**Measure-wise dominance** (Section 7.11) establishes that:
 > If classifier $A$ componentwise dominates classifier $B$ in canonical orthogonal coordinates, then **$A$ achieves a strictly better (or equal) score than $B$ under EVERY performance measure that is monotonically increasing in true positives and decreasing in false positives / false negatives.**
 
 ### Canonical Conditions for Dominance:

@@ -124,7 +124,7 @@ if finding:
     print(finding.message)
 ```
 
-### 7. Universal Pareto Dominance (Proposition 3)
+### 7. Universal Pareto Dominance (Section 7.11)
 
 ```python
 from aggmetrics import pareto_dominance
@@ -137,7 +137,7 @@ if result == "incomparable":
     pass
 ```
 
-### 8. Micro-Macro Gap Decomposition (Corollary 5)
+### 8. Micro-Macro Gap Decomposition (Corollary 6)
 
 ```python
 from aggmetrics import micro_macro_gap
@@ -148,7 +148,7 @@ print(f"Gap (Micro - Macro): {gap_info['gap']:.4f}")
 print(f"Normalized Covariance: {gap_info['predicted_gap']:.4f}")
 ```
 
-### 9. Ordinal Classification & Cost Matrices (Theorem 3)
+### 9. Ordinal Classification & Cost Matrices (Theorem 4)
 
 ```python
 # MAE and MSE as cost matrices on indicator matrices
@@ -178,7 +178,7 @@ mcc_averaged = fold_aggregate(folds, measure="mcc", how="macro", pooling="averag
 - [Measures and Properties Reference](./references/measures_and_properties.md): Full list of 21 built-in measures, aliases, algebraic properties, and micro-macro gap covariance.
 - [Orthogonality & Redundancy Reference](./references/orthogonality_and_redundancy.md): Degrees of freedom ($d$), row-decoupling, Frobenius inner product, and canonical orthogonal bases.
 - [Pareto Dominance Reference](./references/pareto_dominance_and_comparison.md): Universal model comparison, incomparability, and monotonic measure consistency.
-- [Ordinal & Cost Matrices Reference](./references/ordinal_and_cost_matrices.md): Theorem 3 (MAE/MSE unification), custom cost matrices, and cumulative threshold encoding.
+- [Ordinal & Cost Matrices Reference](./references/ordinal_and_cost_matrices.md): Theorem 4 (MAE/MSE unification), custom cost matrices, and cumulative threshold encoding.
 - [Cross-Validation Aggregation Reference](./references/cross_validation_aggregation.md): The inter-fold operator $\Sigma_k$, pooled vs averaged CV, and Jensen ratio bias.
 - [Diagnostics Reference](./references/diagnostics.md): Detailed breakdown of diagnostic rules, OvR skew drift, and evaluation pitfalls.
 - [T-Norms Reference](./references/tnorms_and_soft_labels.md): Soft label evaluation and marginal consistency.

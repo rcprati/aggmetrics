@@ -293,7 +293,7 @@ class IndicatorMatrix:
     def dominates(self, other: IndicatorMatrix, strict: bool = False) -> bool:
         """Check whether this classifier dominates another across all monotonic measures.
 
-        By Proposition 3 of the companion paper, a classifier A dominates B across all
+        By Section 7.11 of the companion paper (which rests on Proposition 3), a classifier A dominates B across all
         measures respecting confusion-matrix monotonicity if and only if A dominates B
         elementwise in the canonical coordinate space:
 
