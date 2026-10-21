@@ -1,5 +1,10 @@
 # aggmetrics
 
+[![tests](https://github.com/rcprati/aggmetrics/actions/workflows/ci.yml/badge.svg)](https://github.com/rcprati/aggmetrics/actions/workflows/ci.yml)
+[![Documentation Status](https://readthedocs.org/projects/aggmetrics/badge/?version=latest)](https://aggmetrics.readthedocs.io/en/latest/)
+[![PyPI](https://img.shields.io/pypi/v/aggmetrics?include_prereleases)](https://pypi.org/project/aggmetrics/)
+[![License](https://img.shields.io/badge/license-BSD--3-blue.svg)](LICENSE)
+
 **Aggregating classification performance measures for machine learning: indicator matrices and aggregation operators.**
 
 Any binary performance measure expressible in terms of the four confusion-matrix
@@ -28,6 +33,8 @@ im.accuracy()                      # 0.5
 
 im.report()                        # DataFrame: measures x operators
 ```
+
+**Documentation:** <https://aggmetrics.readthedocs.io>
 
 ## Installation
 
