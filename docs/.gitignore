@@ -1,0 +1,4 @@
+_build/
+_generated/
+gallery/*.ipynb
+!gallery/index.md

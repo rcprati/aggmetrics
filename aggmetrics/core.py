@@ -296,6 +296,7 @@ class IndicatorMatrix:
         By Proposition 3 of the companion paper, a classifier A dominates B across all
         measures respecting confusion-matrix monotonicity if and only if A dominates B
         elementwise in the canonical coordinate space:
+
         - In binary: TP_A >= TP_B, FP_A <= FP_B, FN_A <= FN_B, TN_A >= TN_B
         - In multiclass: R_{jk}^{(A)} <= R_{jk}^{(B)} for all off-diagonal errors (k != j)
           and R_{jj}^{(A)} >= R_{jj}^{(B)} for all on-diagonal recalls.
