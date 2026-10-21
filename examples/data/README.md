@@ -52,3 +52,19 @@ Processing Systems 14*, pp. 681-687, 2001.
 This file is a copy for convenience, so that the notebook runs offline and in continuous
 integration. It is not covered by this repository's BSD-3-Clause licence. If you hold rights
 to the data and object to the copy, please open an issue and it will be removed.
+
+## `winequality-red.csv`
+
+Quality scores of red *Vinho Verde* wines: 1599 wines, 11 physicochemical measurements and a
+sensory `quality` score from 3 to 8 (the classes are ordered and unbalanced). Semicolon-separated.
+Used by `notebooks/04_ordinal_and_cost.ipynb`.
+
+**Source and licence.** UCI Machine Learning Repository, dataset 186, "Wine Quality"
+(<https://archive.ics.uci.edu/dataset/186/wine+quality>), distributed under the
+[Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)
+licence. The file is the unmodified `winequality-red.csv` from the zip distributed there.
+
+**Citation.** P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis (2009). *Wine Quality*
+[Dataset]. UCI Machine Learning Repository. <https://doi.org/10.24432/C56S3T>. The associated paper
+is "Modeling wine preferences by data mining from physicochemical properties", *Decision Support
+Systems*, 2009.

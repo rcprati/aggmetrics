@@ -9,6 +9,8 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 | {doc}`01_floor_trap` | A classifier wrong on every example scores 0.998 on label accuracy with 1000 classes |
 | {doc}`02_micro_macro_imbalance` | Micro-F1 equals accuracy; micro-MCC outside the per-class range; the hidden choice for 0/0 |
 | {doc}`03_multilabel_ranking` | Three models on *yeast* ranked under 18 measure-operator combinations |
+| {doc}`04_ordinal_and_cost` | Nine in ten errors are one grade off; a cost matrix changes which prediction is best |
+| {doc}`05_model_selection_and_ci` | The scorer picks the model, pooled and averaged folds differ, and a test that fails on a flawed evaluation |
 
 ```{toctree}
 :hidden:
@@ -16,9 +18,11 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 01_floor_trap
 02_micro_macro_imbalance
 03_multilabel_ranking
+04_ordinal_and_cost
+05_model_selection_and_ci
 ```
 
 :::{note}
-Planned: ordinal and cost-sensitive evaluation, soft labels from annotator proportions,
-long-tailed image classification, and `scikit-learn` pipelines with `diagnose` in CI.
+Planned: thresholds and degenerate optima, soft labels from annotator proportions, pixel-level
+segmentation measures, and custom measures.
 :::
