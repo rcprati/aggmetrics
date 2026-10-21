@@ -158,7 +158,7 @@ python -m pytest tests/test_theory.py -v
 | `test_theorem4_mae_and_mse_as_cost_matrices` | ordinal losses as cost matrices |
 | `test_inference_reproduces_every_annotation` | inference recovers all 21 analytic annotations |
 
-209 tests, no skips, 100% line and branch coverage.
+210 tests, no skips, 100% line and branch coverage.
 
 ## Examples
 
@@ -173,6 +173,7 @@ practitioner recognises, shows what the usual tools report, and then what `aggme
 | [04 Ordinal grades and costs](examples/notebooks/04_ordinal_and_cost.ipynb) | Nine in ten errors are one grade off; a cost matrix changes which prediction is best | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/04_ordinal_and_cost.ipynb) |
 | [05 Model selection](examples/notebooks/05_model_selection_and_ci.ipynb) | The scorer picks the model, pooled and averaged folds differ, and a test that fails on a flawed evaluation | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/05_model_selection_and_ci.ipynb) |
 | [06 Long-tailed images](examples/notebooks/06_long_tail_images.ipynb) | The same CIFAR-10-LT model scores 0.92 on a long-tailed set and 0.66 on a balanced one; what changes with the class prior | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/06_long_tail_images.ipynb) |
+| [07 Choosing a threshold](examples/notebooks/07_thresholds_and_degenerate_optima.ipynb) | Recall, specificity and precision are maximised by trivial classifiers; a cost-weighted measure has a closed-form threshold | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/07_thresholds_and_degenerate_optima.ipynb) |
 
 To run them locally: `pip install "aggmetrics[examples]" jupyter`. A short script version of
 the tour is in `examples/quickstart.py`:

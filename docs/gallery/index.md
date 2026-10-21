@@ -12,6 +12,7 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 | {doc}`04_ordinal_and_cost` | Nine in ten errors are one grade off; a cost matrix changes which prediction is best |
 | {doc}`05_model_selection_and_ci` | The scorer picks the model, pooled and averaged folds differ, and a test that fails on a flawed evaluation |
 | {doc}`06_long_tail_images` | The same CIFAR-10-LT model scores 0.92 on a long-tailed set and 0.66 on a balanced one; what changes with the class prior |
+| {doc}`07_thresholds_and_degenerate_optima` | Recall, specificity and precision are maximised by trivial classifiers; a cost-weighted measure has a closed-form threshold |
 
 ```{toctree}
 :hidden:
@@ -22,9 +23,10 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 04_ordinal_and_cost
 05_model_selection_and_ci
 06_long_tail_images
+07_thresholds_and_degenerate_optima
 ```
 
 :::{note}
-Planned: thresholds and degenerate optima, soft labels from annotator proportions, pixel-level
-segmentation measures, and custom measures.
+Planned: soft labels from annotator proportions, pixel-level segmentation measures, and custom
+measures.
 :::
