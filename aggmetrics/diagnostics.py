@@ -241,9 +241,10 @@ def diagnose(im, measures: Optional[Sequence[str]] = None,
                 detail=dict(accuracy=acc, **vals),
             ))
 
-    # 4. undefined per-class / per-example entries
+    # 4. undefined per-class / per-example entries (with a single label the per-example
+    #    values are the entries themselves, so only the per-class check is meaningful)
     for n in names:
-        for agg in ("macro", "exemplar"):
+        for agg in (("macro",) if im.m == 1 else ("macro", "exemplar")):
             try:
                 p = im.parts(n, agg)
             except Exception:

@@ -587,3 +587,16 @@ def test_sigma_k_sums_cell_matrices_elementwise():
     total = sigma_k([a, b])
     for k in range(4):
         assert (total[k] == a[k] + b[k]).all()
+
+
+def test_binary_problems_are_not_flagged_for_per_example_undefined_entries():
+    y = [0, 1, 1, 0, 1, 0, 0, 1]
+    p = [0, 1, 0, 0, 1, 1, 0, 1]
+    im = IndicatorMatrix(y, p, task="binary")
+    findings = diagnose(im, ["precision", "recall"])
+    assert not [f for f in findings if f.code == "undefined_entries"]
+    # a multilabel problem with several labels is still checked per example
+    Y = np.array([[1, 0], [0, 0], [1, 1]])
+    P = np.array([[1, 0], [0, 0], [0, 1]])
+    ml = diagnose(IndicatorMatrix(Y, P, task="multilabel"), ["precision"])
+    assert any(f.code == "undefined_entries" and f.detail["aggregation"] == "exemplar" for f in ml)
