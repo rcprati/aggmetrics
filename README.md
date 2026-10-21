@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/rcprati/aggmetrics/actions/workflows/ci.yml/badge.svg)](https://github.com/rcprati/aggmetrics/actions/workflows/ci.yml)
 [![Documentation Status](https://readthedocs.org/projects/aggmetrics/badge/?version=latest)](https://aggmetrics.readthedocs.io/en/latest/)
-[![PyPI](https://img.shields.io/pypi/v/aggmetrics?include_prereleases)](https://pypi.org/project/aggmetrics/)
+[![PyPI](https://img.shields.io/pypi/v/aggmetrics)](https://pypi.org/project/aggmetrics/)
 [![License](https://img.shields.io/badge/license-BSD--3-blue.svg)](LICENSE)
 
 **Aggregating classification performance measures for machine learning: indicator matrices and aggregation operators.**
@@ -179,7 +179,20 @@ python examples/quickstart.py
 
 ## Citing
 
-Please cite both the software and the companion paper; see `CITATION.cff`.
+Please cite both the software and the companion paper. GitHub's "Cite this repository" button
+and `CITATION.cff` give the software; the paper is:
+
+```bibtex
+@article{prati2027unified,
+  author  = {Prati, Ronaldo C.},
+  title   = {A unified algebraic framework for classification performance evaluation},
+  journal = {Information Fusion},
+  volume  = {138},
+  pages   = {104767},
+  year    = {2027},
+  doi     = {10.1016/j.inffus.2026.104767}
+}
+```
 
 ## License
 
