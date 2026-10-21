@@ -11,6 +11,7 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 | {doc}`03_multilabel_ranking` | Three models on *yeast* ranked under 18 measure-operator combinations |
 | {doc}`04_ordinal_and_cost` | Nine in ten errors are one grade off; a cost matrix changes which prediction is best |
 | {doc}`05_model_selection_and_ci` | The scorer picks the model, pooled and averaged folds differ, and a test that fails on a flawed evaluation |
+| {doc}`06_long_tail_images` | The same CIFAR-10-LT model scores 0.92 on a long-tailed set and 0.66 on a balanced one; what changes with the class prior |
 
 ```{toctree}
 :hidden:
@@ -20,6 +21,7 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 03_multilabel_ranking
 04_ordinal_and_cost
 05_model_selection_and_ci
+06_long_tail_images
 ```
 
 :::{note}
