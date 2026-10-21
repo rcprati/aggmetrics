@@ -139,7 +139,7 @@ python -m pytest tests/test_theory.py -v
 
 | Test | Result verified |
 |---|---|
-| `test_theorem1_holds_for_decomposable` | micro = denominator-weighted macro, 15 measures × 3 samples |
+| `test_theorem1_holds_for_decomposable` | micro = denominator-weighted macro, the 14 decomposable measures × 3 samples |
 | `test_theorem1_fails_for_non_decomposable` | the identity has no extension beyond that class |
 | `test_theorem2_product_is_uniquely_marginally_consistent` | only the product t-norm preserves marginals |
 | `test_theorem5_micro_collapse` | micro-P = micro-R = micro-F₁ = accuracy, single-label |
