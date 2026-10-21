@@ -3,6 +3,8 @@
 ## 0.1.0 (2026-10-21)
 
 First stable release. A pre-release, 0.1.0.dev0, was uploaded earlier to reserve the name.
+Archived on Zenodo: [10.5281/zenodo.23535052](https://doi.org/10.5281/zenodo.23535052) for this version,
+[10.5281/zenodo.23535051](https://doi.org/10.5281/zenodo.23535051) for all versions.
 
 **Library**
 
