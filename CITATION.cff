@@ -22,5 +22,9 @@ references:
       - family-names: Prati
         given-names: Ronaldo C.
     journal: Information Fusion
-    year: 2026
-    notes: "Companion paper establishing the theory the package implements."
+    volume: 138
+    year: 2027
+    month: 2
+    doi: "10.1016/j.inffus.2026.104767"
+    url: "https://doi.org/10.1016/j.inffus.2026.104767"
+    notes: "Article 104767. Companion paper establishing the theory the package implements."
