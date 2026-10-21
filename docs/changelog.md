@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- `diagnose` no longer reports undefined per-example entries (`undefined_entries` for the exemplar
+  operator) on binary problems, where each example has a single label and every negative would be flagged.
+- Example notebooks 04 to 07: ordinal grades and costs, model selection, long-tailed images, and
+  thresholds.
+
 ## 0.1.0 (2026-10-21)
 
 First stable release. A pre-release, 0.1.0.dev0, was uploaded earlier to reserve the name.
