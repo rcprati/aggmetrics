@@ -11,7 +11,7 @@ Used by `notebooks/03_multilabel_ranking.ipynb`.
 | `X` | (2417, 103) | `float64` | features |
 | `Y` | (2417, 14) | `uint8` | label indicator matrix (1 if the gene has the function) |
 
-**Sources.** The same dataset is distributed by several repositories:
+**Sources.** The same dataset is distributed, with the same statistics, by several repositories:
 
 - OpenML, dataset 40597, version 4 (<https://www.openml.org/d/40597>), where it is listed with
   the licence "Public". The arrays here are the data as OpenML serves them.
@@ -22,6 +22,11 @@ Used by `notebooks/03_multilabel_ranking.ipynb`.
 - The R package `mldr.datasets` (<https://rdrr.io/cran/mldr.datasets/man/yeast.html>), whose
   documentation lists the same dimensions (2417 instances, 103 attributes, 14 labels) and the
   same citation. Its page states no terms for the dataset.
+- The multi-label learning resources of the KDIS group, University of Córdoba
+  (<https://www.uco.es/kdis/mllresources/>), which offers the original data as provided by the
+  authors and several train-test and cross-validation partitions. Its page lists the same
+  dimensions and the same label cardinality (4.237) and density (0.303). It states no terms for
+  the datasets (the GPLv3 mentioned there refers to its software, not to the data).
 
 **Not to be confused with the UCI "Yeast" dataset** (<https://archive.ics.uci.edu/dataset/110/yeast>,
 K. Nakai), which shares the name but is a different dataset: 1484 proteins, 8 features and a
