@@ -4,6 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/aggmetrics/badge/?version=latest)](https://aggmetrics.readthedocs.io/en/latest/)
 [![PyPI](https://img.shields.io/pypi/v/aggmetrics)](https://pypi.org/project/aggmetrics/)
 [![License](https://img.shields.io/badge/license-BSD--3-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23535051.svg)](https://doi.org/10.5281/zenodo.23535051)
 
 **Aggregating classification performance measures for machine learning: indicator matrices and aggregation operators.**
 
@@ -179,8 +180,22 @@ python examples/quickstart.py
 
 ## Citing
 
-Please cite both the software and the companion paper. GitHub's "Cite this repository" button
-and `CITATION.cff` give the software; the paper is:
+Please cite both the software and the companion paper. The software is archived on Zenodo:
+the DOI [10.5281/zenodo.23535051](https://doi.org/10.5281/zenodo.23535051) always resolves to the
+latest version, and version 0.1.0 is [10.5281/zenodo.23535052](https://doi.org/10.5281/zenodo.23535052).
+GitHub's "Cite this repository" button reads `CITATION.cff`. In BibTeX:
+
+```bibtex
+@software{prati2026aggmetrics,
+  author  = {Prati, Ronaldo C.},
+  title   = {aggmetrics: aggregating classification performance measures for machine learning},
+  year    = {2026},
+  doi     = {10.5281/zenodo.23535051},
+  url     = {https://github.com/rcprati/aggmetrics}
+}
+```
+
+The paper is:
 
 ```bibtex
 @article{prati2027unified,

@@ -11,6 +11,7 @@ version: 0.1.0
 date-released: 2026-10-21
 license: BSD-3-Clause
 repository-code: "https://github.com/rcprati/aggmetrics"
+doi: "10.5281/zenodo.23535051"
 keywords:
   - machine learning
   - classification
