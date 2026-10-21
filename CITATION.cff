@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: "aggmetrics: aggregating classification performance measures for machine learning"
+message: "If you use this software, please cite both the software and the companion paper."
+type: software
+authors:
+  - family-names: Prati
+    given-names: Ronaldo C.
+    orcid: "https://orcid.org/0000-0001-8597-4987"
+    affiliation: "Universidade Federal do ABC (UFABC)"
+version: 0.1.0.dev0
+license: BSD-3-Clause
+repository-code: "https://github.com/rcprati/aggmetrics"
+keywords:
+  - machine learning
+  - classification
+  - performance measures
+  - class imbalance
+references:
+  - type: article
+    title: "A Unified Algebraic Framework for Classification Performance Evaluation"
+    authors:
+      - family-names: Prati
+        given-names: Ronaldo C.
+    journal: Information Fusion
+    year: 2026
+    notes: "Companion paper establishing the theory the package implements."
