@@ -13,6 +13,7 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 | {doc}`05_model_selection_and_ci` | The scorer picks the model, pooled and averaged folds differ, and a test that fails on a flawed evaluation |
 | {doc}`06_long_tail_images` | The same CIFAR-10-LT model scores 0.92 on a long-tailed set and 0.66 on a balanced one; what changes with the class prior |
 | {doc}`07_thresholds_and_degenerate_optima` | Recall, specificity and precision are maximised by trivial classifiers; a cost-weighted measure has a closed-form threshold |
+| {doc}`08_soft_labels` | Image classifiers against the distribution of 50 human annotators (CIFAR-10H): does the soft reference change the verdict, where do the models err, and a simulation of when it reverses the verdict |
 
 ```{toctree}
 :hidden:
@@ -24,9 +25,9 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 05_model_selection_and_ci
 06_long_tail_images
 07_thresholds_and_degenerate_optima
+08_soft_labels
 ```
 
 :::{note}
-Planned: soft labels from annotator proportions, pixel-level segmentation measures, and custom
-measures.
+Planned: pixel-level segmentation measures and custom measures.
 :::

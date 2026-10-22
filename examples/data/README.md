@@ -96,3 +96,15 @@ with Label-Distribution-Aware Margin Loss, NeurIPS 2019. Logit adjustment: A. K.
 A. S. Rawat, H. Jain, A. Veit and S. Kumar, Long-tail learning via logit adjustment, ICLR 2021.
 
 These arrays are model outputs and labels, not the CIFAR data, which are not redistributed here.
+
+### `cifar10lt/probabilities.npz`
+
+The softmax probabilities of the same ten models on the CIFAR-10 test set, for
+`notebooks/08_soft_labels.ipynb`: `loss` and `seed` as above, and `prob_test` of shape (10, 10000, 10) in
+`float16` (the rounding changes a soft accuracy by about 5e-6; for one image of one run it makes a tie).
+They are the softmax of the logits of the checkpoints, with the same origin as the predictions.
+
+That notebook also uses the **CIFAR-10H** human labels (J. C. Peterson, R. M. Battleday, T. L. Griffiths and
+O. Russakovsky, *Human uncertainty makes classification more robust*, ICCV 2019), which are distributed under
+CC BY-NC-SA 4.0 and are therefore **not** included in this repository: the notebook downloads them from
+<https://github.com/jcpeterson/cifar-10h> at a fixed commit and checks the SHA-256 of the file.
