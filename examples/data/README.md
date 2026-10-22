@@ -108,3 +108,9 @@ That notebook also uses the **CIFAR-10H** human labels (J. C. Peterson, R. M. Ba
 O. Russakovsky, *Human uncertainty makes classification more robust*, ICCV 2019), which are distributed under
 CC BY-NC-SA 4.0 and are therefore **not** included in this repository: the notebook downloads them from
 <https://github.com/jcpeterson/cifar-10h> at a fixed commit and checks the SHA-256 of the file.
+
+## `bbbc039/subset.npz`
+
+A derived subset of the BBBC039 nucleus-segmentation images (CC0), used by
+`notebooks/09_segmentation.ipynb`. Source, licence, citation and processing are in
+[`bbbc039/README.md`](bbbc039/README.md).
