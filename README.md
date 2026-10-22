@@ -182,8 +182,18 @@ practitioner recognises, shows what the usual tools report, and then what `aggme
 | [09 Segmentation](examples/notebooks/09_segmentation.ipynb) | Cell nuclei (BBBC039): pixel accuracy gives 0.82 to a predictor that outputs nothing; pooled and per-image IoU, and the convention for images with no object | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/09_segmentation.ipynb) |
 | [10 Custom measures](examples/notebooks/10_custom_measures.ipynb) | Register your own formula: what is inferred (decomposable, skew-invariant), what follows on data, and a piecewise measure on which the inference is wrong | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/10_custom_measures.ipynb) |
 
-To run them locally: `pip install "aggmetrics[examples]" jupyter`. A short script version of
-the tour is in `examples/quickstart.py`:
+The notebooks and their data are in the repository, not in the pip package. The Colab badges
+need nothing installed. To run them locally, clone the repository (the `examples` extra installs
+only the libraries the notebooks use):
+
+```bash
+git clone https://github.com/rcprati/aggmetrics
+cd aggmetrics
+pip install -e ".[examples]" jupyter
+jupyter lab examples/notebooks
+```
+
+A short script version of the tour is `examples/quickstart.py`, also in the clone:
 
 ```bash
 python examples/quickstart.py
