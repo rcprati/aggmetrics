@@ -351,6 +351,7 @@ def pareto_dominance(im_a: IndicatorMatrix, im_b: IndicatorMatrix) -> str:
     """Determine Pareto dominance between two classifiers.
 
     Returns:
+
     - ``'A_dominates_B'`` if A strictly dominates B across all monotonic measures;
     - ``'B_dominates_A'`` if B strictly dominates A;
     - ``'equivalent'`` if both confusion profiles are identical;
