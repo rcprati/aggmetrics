@@ -10,13 +10,16 @@ theorem breaks a test.
 """
 from __future__ import annotations
 
-import math
-
 import numpy as np
 import pytest
 
-from aggmetrics import (IndicatorMatrix, aggregate, get_measure, list_measures,
-                         marginal_defect, micro_macro_gap)
+from aggmetrics import (
+    IndicatorMatrix,
+    get_measure,
+    list_measures,
+    marginal_defect,
+    micro_macro_gap,
+)
 from aggmetrics.diagnostics import check_hull
 
 rng = np.random.default_rng(20260728)
@@ -520,7 +523,7 @@ def test_pareto_dominance_binary_and_multiclass():
 
 def test_fold_aggregation_pooled_vs_averaged():
     """Fold pooling (Sigma_k) vs fold averaging across CV splits."""
-    from aggmetrics.aggregation import fold_aggregate, sigma_k
+    from aggmetrics.aggregation import fold_aggregate
 
     # Create 3 synthetic folds
     rng = np.random.default_rng(42)

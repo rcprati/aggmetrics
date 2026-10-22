@@ -16,7 +16,7 @@ from typing import Iterable, Literal, Optional, Sequence
 import numpy as np
 
 from .aggregation import Aggregation, aggregate, cells, sigma_1, sigma_m, sigma_n
-from .measures import BinaryMeasure, get_measure, list_measures
+from .measures import BinaryMeasure, get_measure
 from .tnorms import soft_cells
 
 __all__ = ["IndicatorMatrix", "pareto_dominance"]
@@ -48,9 +48,9 @@ class IndicatorMatrix:
     Parameters
     ----------
     y_true, y_pred
-        Either 1-D arrays of class indices (multiclass, binary, or ordinal) or 2-D binary
-        matrices of shape ``(n, m)`` (multilabel, or explicit one-hot). ``y_pred``
-        may also be a real-valued score or probability matrix, in which case
+        Either 1-D arrays of class indices (multiclass, binary, or ordinal) or 2-D
+        binary matrices of shape ``(n, m)`` (multilabel, or explicit one-hot).
+        ``y_pred`` may also be a real-valued score or probability matrix, in which case
         ``threshold`` or ``argmax`` conversion is applied according to ``task``.
     task
         ``'multiclass'`` enforces one prediction per example via argmax;
@@ -83,7 +83,8 @@ class IndicatorMatrix:
 
         # -- actual labels -------------------------------------------------
         if task == "ordinal":
-            m_classes = n_classes or (int(max(yt.max(), np.asarray(yp).max() if yp.ndim == 1 else 0)) + 1)
+            top = np.asarray(yp).max() if yp.ndim == 1 else 0
+            m_classes = n_classes or (int(max(yt.max(), top)) + 1)
             self.m_classes = m_classes
             if yt.ndim == 1:
                 self.Y = _cumulative_ordinal(yt, m_classes)
@@ -93,7 +94,10 @@ class IndicatorMatrix:
             if yp.ndim == 1:
                 self.P = _cumulative_ordinal(yp, m_classes)
             elif yp.shape == self.Y.shape:
-                self.P = (yp > threshold).astype(float) if not np.isin(yp, (0.0, 1.0)).all() else yp.astype(float)
+                if np.isin(yp, (0.0, 1.0)).all():
+                    self.P = yp.astype(float)
+                else:
+                    self.P = (yp > threshold).astype(float)
             elif yp.shape == (n, m_classes):
                 self.P = _cumulative_ordinal(yp.argmax(axis=1), m_classes)
             else:
@@ -104,7 +108,10 @@ class IndicatorMatrix:
                 # them never occur in y_true
                 m = n_classes or (int(max(yt.max(), np.asarray(yp).max() if yp.ndim == 1
                                           else yp.shape[1] - 1)) + 1)
-                self.Y = _one_hot(yt, m) if task != "binary" else yt.reshape(-1, 1).astype(float)
+                if task != "binary":
+                    self.Y = _one_hot(yt, m)
+                else:
+                    self.Y = yt.reshape(-1, 1).astype(float)
             else:
                 self.Y = yt.astype(float)
             n, m = self.Y.shape
@@ -237,8 +244,9 @@ class IndicatorMatrix:
         For binary classification ($m=2$), this is $2(1) = 2$, spanned by the
         canonical orthogonal basis $(\\text{recall}, \\text{specificity})$.
         For $m$-class multiclass classification, this is $m(m-1)$, spanned by the
-        directional off-diagonal conditional misclassification rates $R_{jk}$ ($k \\neq j$).
-        For multilabel classification with $m$ labels, each label has 2 degrees of freedom ($2m$).
+        directional off-diagonal conditional misclassification rates $R_{jk}$
+        ($k \\neq j$). For multilabel classification with $m$ labels, each label has 2
+        degrees of freedom ($2m$).
         """
         if self.task == "binary" or self.m == 1:
             return 2
@@ -247,11 +255,11 @@ class IndicatorMatrix:
         return self.m * (self.m - 1)
 
     def canonical_coordinates(self) -> np.ndarray:
-        """Extract the canonical orthogonal coordinates (conditional misclassification rates).
+        """Extract the canonical orthogonal coordinates (conditional error rates).
 
         For multiclass problems, returns the $m(m-1)$ off-diagonal conditional error
-        rates $R_{jk} = P(\\hat{Y}=k \\mid Y=j)$ for $k \\neq j$, which form an orthogonal
-        basis in Frobenius inner product.
+        rates $R_{jk} = P(\\hat{Y}=k \\mid Y=j)$ for $k \\neq j$, which form an
+        orthogonal basis in Frobenius inner product.
         For binary problems, returns $(\\text{recall}, \\text{specificity})$.
         """
         if self.task == "binary" or self.m == 1:
@@ -291,18 +299,22 @@ class IndicatorMatrix:
         raise ValueError("aggregation must be 'micro', 'macro' or 'exemplar'")
 
     def dominates(self, other: IndicatorMatrix, strict: bool = False) -> bool:
-        """Check whether this classifier dominates another across all monotonic measures.
+        """Check whether this classifier dominates another on all monotonic measures.
 
-        By Section 7.11 of the companion paper (which rests on Proposition 3), a classifier A dominates B across all
+        By Section 7.11 of the companion paper (which rests on Proposition 3), a
+        classifier A dominates B across all
         measures respecting confusion-matrix monotonicity if and only if A dominates B
         elementwise in the canonical coordinate space:
 
         - In binary: TP_A >= TP_B, FP_A <= FP_B, FN_A <= FN_B, TN_A >= TN_B
-        - In multiclass: R_{jk}^{(A)} <= R_{jk}^{(B)} for all off-diagonal errors (k != j)
+        - In multiclass: R_{jk}^{(A)} <= R_{jk}^{(B)} for all off-diagonal errors
+          (k != j)
           and R_{jj}^{(A)} >= R_{jj}^{(B)} for all on-diagonal recalls.
         """
         if self.task != other.task or self.m != other.m or self.n != other.n:
-            raise ValueError("Both IndicatorMatrix instances must have the same task, m, and n.")
+            raise ValueError(
+                "Both IndicatorMatrix instances must have the same task, m, and n."
+            )
         if self.task == "binary" or self.m == 1:
             tp_a, fp_a, fn_a, tn_a = self.counts
             tp_b, fp_b, fn_b, tn_b = other.counts
@@ -312,8 +324,10 @@ class IndicatorMatrix:
         else:
             C_a = (self.Y.T @ self.P).astype(float)
             C_b = (other.Y.T @ other.P).astype(float)
-            row_a = C_a.sum(axis=1, keepdims=True); row_a[row_a == 0] = 1.0
-            row_b = C_b.sum(axis=1, keepdims=True); row_b[row_b == 0] = 1.0
+            row_a = C_a.sum(axis=1, keepdims=True)
+            row_a[row_a == 0] = 1.0
+            row_b = C_b.sum(axis=1, keepdims=True)
+            row_b[row_b == 0] = 1.0
             R_a = C_a / row_a
             R_b = C_b / row_b
             diag_ge = np.all(np.diag(R_a) >= np.diag(R_b) - 1e-12)
@@ -337,10 +351,12 @@ def pareto_dominance(im_a: IndicatorMatrix, im_b: IndicatorMatrix) -> str:
     """Determine Pareto dominance between two classifiers.
 
     Returns:
+
     - ``'A_dominates_B'`` if A strictly dominates B across all monotonic measures;
     - ``'B_dominates_A'`` if B strictly dominates A;
     - ``'equivalent'`` if both confusion profiles are identical;
-    - ``'incomparable'`` if neither dominates the other (metric ranking depends on the choice of measure).
+    - ``'incomparable'`` if neither dominates the other (the ranking depends on the
+      choice of measure).
     """
     a_dom_b = im_a.dominates(im_b, strict=True)
     b_dom_a = im_b.dominates(im_a, strict=True)

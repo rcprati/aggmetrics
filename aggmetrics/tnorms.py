@@ -75,8 +75,8 @@ TNORMS: Dict[str, Callable] = {
 
 
 def get_tnorm(name: str | Callable) -> Callable:
-    """Resolve a t-norm by name (``'product'``, ``'godel'``, ``'lukasiewicz'`` and aliases),
-    or return a callable ``T(a, b)`` unchanged."""
+    """Resolve a t-norm by name (``'product'``, ``'godel'``, ``'lukasiewicz'`` and
+    aliases), or return a callable ``T(a, b)`` unchanged."""
     if callable(name):
         return name
     key = str(name).strip().lower()

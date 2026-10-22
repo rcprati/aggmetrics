@@ -126,7 +126,8 @@ def uniform_error_deviation(im) -> float:
     Proposition 6(2) of the companion paper proves that One-vs-Rest specificity is
     strictly prior-free if and only if the off-diagonal error rates into class j
     are uniform ($R_{kj} = \\text{const}$ for all $k \\neq j$). This function computes
-    the mean over classes $j$ of the sample standard deviation of $R_{kj}$ over $k \\neq j$.
+    the mean over classes $j$ of the sample standard deviation of $R_{kj}$ over
+    $k \\neq j$.
     """
     if im.task != "multiclass" or im.m <= 2:
         return 0.0
@@ -161,14 +162,18 @@ def check_ovr_skew_drift(im, threshold: float = 0.01) -> Optional[Finding]:
     )
 
 
-def check_redundancy(im, measures: Optional[Sequence[str]] = None) -> Optional[Finding]:
-    """Check whether a suite of performance measures exceeds the intrinsic degrees of freedom.
+def check_redundancy(
+    im, measures: Optional[Sequence[str]] = None
+) -> Optional[Finding]:
+    """Check whether a suite of measures exceeds the intrinsic degrees of freedom.
 
-    As shown in Proposition 3 and Remark 2 of the companion paper, a confusion matrix has
-    strictly d = m(m-1) independent degrees of freedom (or d = 2 in binary classification,
-    spanned by the canonical orthogonal basis (recall, specificity)). A benchmark suite with k > d
-    measures inevitably contains collinear gradients and functional redundancy (e.g. reporting
-    accuracy, balanced accuracy, and F1 alongside recall and specificity under fixed priors).
+    As shown in Proposition 3 and Remark 2 of the companion paper, a confusion
+    matrix has strictly d = m(m-1) independent degrees of freedom (or d = 2 in
+    binary classification, spanned by the canonical orthogonal basis (recall,
+    specificity)). A benchmark suite with k > d measures inevitably contains
+    collinear gradients and functional redundancy (e.g. reporting accuracy,
+    balanced accuracy, and F1 alongside recall and specificity under fixed
+    priors).
     """
     if measures is None:
         return None
@@ -178,10 +183,11 @@ def check_redundancy(im, measures: Optional[Sequence[str]] = None) -> Optional[F
         return Finding(
             code="redundant_suite",
             severity="note",
-            message=(f"The requested suite of {len(unique_measures)} measures exceeds the "
-                     f"{dof} independent degrees of freedom of the confusion matrix. "
-                     f"Under fixed priors, scalar measures beyond the canonical orthogonal basis "
-                     f"have collinear gradients and convey redundant information."),
+            message=(f"The requested suite of {len(unique_measures)} measures "
+                     f"exceeds the {dof} independent degrees of freedom of the "
+                     f"confusion matrix. Under fixed priors, scalar measures "
+                     f"beyond the canonical orthogonal basis have collinear "
+                     f"gradients and convey redundant information."),
             detail=dict(measures=unique_measures, count=len(unique_measures), dof=dof),
         )
     return None
@@ -295,7 +301,8 @@ def diagnose(im, measures: Optional[Sequence[str]] = None,
                 ))
 
     # 6. multiclass OvR prior drift (asymmetric off-diagonal errors)
-    if one_hot and im.m > 2 and any(n in names for n in ("specificity", "balanced_accuracy", "gmean", "informedness")):
+    drifting = ("specificity", "balanced_accuracy", "gmean", "informedness")
+    if one_hot and im.m > 2 and any(n in names for n in drifting):
         f_drift = check_ovr_skew_drift(im)
         if f_drift is not None:
             out.append(f_drift)

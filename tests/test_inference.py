@@ -15,10 +15,15 @@ import math
 import numpy as np
 import pytest
 
-from aggmetrics import (IndicatorMatrix, get_measure, infer_properties,
-                         list_measures, register_measure, verify_inference)
+from aggmetrics import (
+    IndicatorMatrix,
+    get_measure,
+    infer_properties,
+    list_measures,
+    register_measure,
+    verify_inference,
+)
 from aggmetrics.inference import _fit_linear_fractional
-
 
 # ---------------------------------------------------------------------------
 # Inference agrees with the analytic annotations

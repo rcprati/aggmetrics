@@ -14,13 +14,27 @@ import sys
 import numpy as np
 import pytest
 
-from aggmetrics import (BinaryMeasure, IndicatorMatrix, diagnose, fold_aggregate,
-                        get_measure, get_tnorm, infer_properties, list_measures,
-                        marginal_defect, pareto_dominance, soft_cells)
+from aggmetrics import (
+    BinaryMeasure,
+    IndicatorMatrix,
+    diagnose,
+    fold_aggregate,
+    get_measure,
+    get_tnorm,
+    infer_properties,
+    list_measures,
+    marginal_defect,
+    pareto_dominance,
+    soft_cells,
+)
 from aggmetrics.aggregation import _combine, aggregate, cells, sigma_k
-from aggmetrics.diagnostics import (check_hull, check_ovr_skew_drift,
-                                    check_redundancy, micro_macro_gap,
-                                    uniform_error_deviation)
+from aggmetrics.diagnostics import (
+    check_hull,
+    check_ovr_skew_drift,
+    check_redundancy,
+    micro_macro_gap,
+    uniform_error_deviation,
+)
 from aggmetrics.tnorms import hamacher
 
 

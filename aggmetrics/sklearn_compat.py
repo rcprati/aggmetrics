@@ -24,8 +24,6 @@ from __future__ import annotations
 
 from typing import Callable, Optional
 
-import numpy as np
-
 from .core import IndicatorMatrix
 from .measures import get_measure
 

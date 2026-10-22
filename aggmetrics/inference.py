@@ -74,7 +74,10 @@ class InferredProperties:
         ]
         if self.linear is not None:
             a, b = self.linear
-            fmt = lambda v: "(" + ", ".join(f"{x:+.4g}" for x in v) + ")"
+
+            def fmt(v):
+                return "(" + ", ".join(f"{x:+.4g}" for x in v) + ")"
+
             lines += [f"numerator coeffs      : {fmt(a)}",
                       f"denominator coeffs    : {fmt(b)}",
                       f"held-out residual     : {self.residual:.2e}"]
