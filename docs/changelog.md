@@ -4,8 +4,9 @@
 
 - `diagnose` no longer reports undefined per-example entries (`undefined_entries` for the exemplar
   operator) on binary problems, where each example has a single label and every negative would be flagged.
-- Example notebooks 04 to 09: ordinal grades and costs, model selection, long-tailed images,
-  thresholds, soft labels (with the CIFAR-10H human labels), and segmentation (with a CC0 subset of BBBC039).
+- Example notebooks 04 to 10: ordinal grades and costs, model selection, long-tailed images,
+  thresholds, soft labels (with the CIFAR-10H human labels), segmentation (with a CC0 subset of BBBC039), and
+  custom measures.
 
 ## 0.1.0 (2026-10-21)
 
