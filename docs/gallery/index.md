@@ -14,6 +14,7 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 | {doc}`06_long_tail_images` | The same CIFAR-10-LT model scores 0.92 on a long-tailed set and 0.66 on a balanced one; what changes with the class prior |
 | {doc}`07_thresholds_and_degenerate_optima` | Recall, specificity and precision are maximised by trivial classifiers; a cost-weighted measure has a closed-form threshold |
 | {doc}`08_soft_labels` | Image classifiers against the distribution of 50 human annotators (CIFAR-10H): does the soft reference change the verdict, where do the models err, and a simulation of when it reverses the verdict |
+| {doc}`09_segmentation` | Cell nuclei (BBBC039): pixel accuracy gives 0.82 to a predictor that outputs nothing; pooled and per-image IoU, and the convention for images with no object |
 
 ```{toctree}
 :hidden:
@@ -26,8 +27,9 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 06_long_tail_images
 07_thresholds_and_degenerate_optima
 08_soft_labels
+09_segmentation
 ```
 
 :::{note}
-Planned: pixel-level segmentation measures and custom measures.
+Planned: custom measures.
 :::
