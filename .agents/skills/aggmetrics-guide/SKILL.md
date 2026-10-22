@@ -3,7 +3,9 @@ name: aggmetrics-guide
 description: >-
   Use this skill whenever the user wants to evaluate classification models, compute evaluation
   measures via indicator matrices, analyze classifier diagnostics, work with soft/probabilistic
-  confusion matrices (t-norms), or define custom evaluation measures using the aggmetrics Python library.
+  confusion matrices (t-norms), define custom evaluation measures, choose or report an aggregation
+  operator (micro, macro, weighted, exemplar, pooled folds), or evaluate segmentation, thresholds or
+  cost-sensitive classifiers using the aggmetrics Python library.
 ---
 
 # aggmetrics Evaluation Skill
@@ -21,6 +23,32 @@ In `aggmetrics`, classification evaluation is unified through:
    - `'weighted'` ($\Sigma_m$ weighted): Computes the measure per class and averages weighted by class prevalence.
    - `'exemplar'` / `'samples'` ($\Sigma_n$): Computes the measure per instance/sample (useful for multilabel).
 4. **Diagnostics**: Detecting traps like *micro-collapse* (micro-P = micro-R = micro-F1 = accuracy), *inflated floors* (measures flattering wrong models due to TNs), and *degenerate optima*.
+
+---
+
+## What to do before reporting a number
+
+An agent that reports an evaluation should do these, in this order. Each one is a failure that the example
+notebooks show on real data.
+
+1. **State the operator and the convention.** "F1" is not a number: micro, macro, weighted and exemplar
+   give different values, and a macro value over undefined entries depends on `convention`
+   (`exclude`, `zero`, `one`, `nan`). Report both (notebooks 02, 09).
+2. **Run `diagnose(im)`** on the data and the suite of measures, and relay every `warning`. Typical
+   findings: `inflated_floor` (a wrong model still scores high), `micro_collapse` (micro-F1 is accuracy),
+   `undefined_entries` (the convention moves the value) (notebooks 01, 02).
+3. **Compare models under more than one operator**, and say when the verdict changes (notebooks 03, 08, 10).
+   A near-tie is a tie: do not rank on a gap that was not tested.
+4. **Pool cross-validation folds** with `fold_aggregate(..., pooling="pooled")` for non-linear measures,
+   and show the averaged value next to it (notebook 05).
+5. **Do not maximise a measure that has a degenerate optimum** (`recall`, `specificity`, `precision`):
+   predicting everything one way scores perfectly. Pick a cost-weighted measure or constrain the other
+   error (notebook 07).
+6. **Use a measure that rejects the trivial predictor.** Pixel or label accuracy gives high scores to
+   "predict the majority"; compare with it (notebooks 06, 09).
+7. **For soft labels, say what is soft.** A measure that is linear in the predicted probability rewards
+   decisiveness, not calibration (notebook 08).
+8. **A custom measure is only as good as its inferred properties.** Check them (notebook 10).
 
 ---
 
@@ -92,6 +120,11 @@ print("Bayes decision threshold:", measure.bayes_threshold())
 im.compute("custom_balanced", "macro")
 ```
 
+The properties are inferred from sampled counts, so a piecewise formula (for example one that changes
+below a count threshold) can be misclassified. Check `verify_inference`, and override a property by
+keyword (`register_measure(..., linear=None, skew_invariant=False)`) when it is known. See
+notebook 10.
+
 ### 5. Scikit-Learn Integration
 
 ```python
@@ -127,7 +160,10 @@ if finding:
 ### 7. Universal Pareto Dominance (Section 7.11)
 
 ```python
-from aggmetrics import pareto_dominance
+from aggmetrics import IndicatorMatrix, pareto_dominance
+
+im_a = IndicatorMatrix(y_true, y_pred, task="multiclass")
+im_b = IndicatorMatrix(y_true, [0, 1, 2, 2, 0, 0], task="multiclass")
 
 # Compare two models componentwise in canonical coordinates
 # If A dominates B, A is guaranteed to beat B on ALL monotonic performance measures
@@ -182,5 +218,6 @@ mcc_averaged = fold_aggregate(folds, measure="mcc", how="macro", pooling="averag
 - [Cross-Validation Aggregation Reference](./references/cross_validation_aggregation.md): The inter-fold operator $\Sigma_k$, pooled vs averaged CV, and Jensen ratio bias.
 - [Diagnostics Reference](./references/diagnostics.md): Detailed breakdown of diagnostic rules, OvR skew drift, and evaluation pitfalls.
 - [T-Norms Reference](./references/tnorms_and_soft_labels.md): Soft label evaluation and marginal consistency.
+- [Example notebooks](https://github.com/rcprati/aggmetrics/tree/main/examples/notebooks): ten executed notebooks, one per pitfall (floor trap, micro versus macro, multilabel ranking, ordinal and cost, model selection, long tail, thresholds, soft labels, segmentation, custom measures).
 - [Code Examples](./examples/quickstart_recipes.py): Executable script patterns for all evaluation tasks.
 - [Worked agent session](./examples/agent_session_example.md): A request, the recipes used, the real output, and the answer an agent gives (runnable: [`agent_session_example.py`](./examples/agent_session_example.py)).
