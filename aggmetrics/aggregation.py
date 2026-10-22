@@ -21,7 +21,7 @@ package defaults to ``'exclude'``, which averages over the defined entries only.
 """
 from __future__ import annotations
 
-from typing import Literal, Optional, Tuple
+from typing import Literal, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -78,8 +78,9 @@ def sigma_n(X: np.ndarray) -> np.ndarray:
     return np.asarray(X).sum(axis=1)
 
 
-def sigma_k(cell_list: Sequence[Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]]
-            ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+def sigma_k(
+    cell_list: Sequence[Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]],
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Fold-wise aggregation across K cross-validation splits.
 
     Sums the four cell matrices (TP, FP, FN, TN) across multiple folds.
@@ -141,9 +142,9 @@ def aggregate(Y, P, measure: str | BinaryMeasure, how: Aggregation = "micro",
         return (value, None) if return_parts else value
 
     if how in ("macro", "weighted"):
-        red, axis = sigma_m, 0
+        red = sigma_m
     elif how == "exemplar":
-        red, axis = sigma_n, 1
+        red = sigma_n
     else:
         raise ValueError("how must be 'micro', 'macro', 'weighted' or 'exemplar'")
 

@@ -34,20 +34,39 @@ behaves as commonly assumed:
 >>> 'micro_collapse' in codes
 True
 """
+
 from __future__ import annotations
 
 __version__ = "0.1.0"
 __author__ = "Ronaldo C. Prati"
 __license__ = "BSD-3-Clause"
 
-from .aggregation import (aggregate, cells, fold_aggregate, sigma_1, sigma_k,
-                          sigma_m, sigma_n)
+from .aggregation import (
+    aggregate,
+    cells,
+    fold_aggregate,
+    sigma_1,
+    sigma_k,
+    sigma_m,
+    sigma_n,
+)
 from .core import IndicatorMatrix, pareto_dominance
-from .diagnostics import (Finding, MeasureWarning, check_hull, check_ovr_skew_drift,
-                          check_redundancy, diagnose, micro_macro_gap,
-                          uniform_error_deviation)
-from .inference import (InferredProperties, infer_properties, register_measure,
-                        verify_inference)
+from .diagnostics import (
+    Finding,
+    MeasureWarning,
+    check_hull,
+    check_ovr_skew_drift,
+    check_redundancy,
+    diagnose,
+    micro_macro_gap,
+    uniform_error_deviation,
+)
+from .inference import (
+    InferredProperties,
+    infer_properties,
+    register_measure,
+    verify_inference,
+)
 from .measures import MEASURES, BinaryMeasure, get_measure, list_measures
 from .sklearn_compat import make_scorer, score, sklearn_average
 from .tnorms import TNORMS, get_tnorm, marginal_defect, soft_cells
@@ -55,20 +74,42 @@ from .tnorms import TNORMS, get_tnorm, marginal_defect, soft_cells
 __all__ = [
     "__version__",
     # core
-    "IndicatorMatrix", "pareto_dominance",
+    "IndicatorMatrix",
+    "pareto_dominance",
     # measures
-    "BinaryMeasure", "MEASURES", "get_measure", "list_measures",
+    "BinaryMeasure",
+    "MEASURES",
+    "get_measure",
+    "list_measures",
     # operators
-    "aggregate", "cells", "fold_aggregate", "sigma_1", "sigma_m", "sigma_n", "sigma_k",
+    "aggregate",
+    "cells",
+    "fold_aggregate",
+    "sigma_1",
+    "sigma_m",
+    "sigma_n",
+    "sigma_k",
     # soft labels
-    "TNORMS", "get_tnorm", "marginal_defect", "soft_cells",
+    "TNORMS",
+    "get_tnorm",
+    "marginal_defect",
+    "soft_cells",
     # diagnostics
-    "Finding", "MeasureWarning", "check_hull", "check_ovr_skew_drift",
-    "check_redundancy", "diagnose", "micro_macro_gap", "uniform_error_deviation",
+    "Finding",
+    "MeasureWarning",
+    "check_hull",
+    "check_ovr_skew_drift",
+    "check_redundancy",
+    "diagnose",
+    "micro_macro_gap",
+    "uniform_error_deviation",
     # inference
-    "register_measure", "infer_properties", "verify_inference",
+    "register_measure",
+    "infer_properties",
+    "verify_inference",
     "InferredProperties",
     # scikit-learn
-    "make_scorer", "score", "sklearn_average",
+    "make_scorer",
+    "score",
+    "sklearn_average",
 ]
-

@@ -40,6 +40,16 @@ Issues = "https://github.com/rcprati/aggmetrics/issues"
 [tool.setuptools.packages.find]
 include = ["aggmetrics*"]
 
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+# the tests keep one-line setup statements and long assertion messages
+"tests/*" = ["E501", "E702"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]

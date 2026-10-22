@@ -6,8 +6,16 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from aggmetrics import (IndicatorMatrix, aggregate, diagnose, get_measure,
-                         list_measures, make_scorer, score, sklearn_average)
+from aggmetrics import (
+    IndicatorMatrix,
+    aggregate,
+    diagnose,
+    get_measure,
+    list_measures,
+    make_scorer,
+    score,
+    sklearn_average,
+)
 from aggmetrics.diagnostics import MeasureWarning
 
 
