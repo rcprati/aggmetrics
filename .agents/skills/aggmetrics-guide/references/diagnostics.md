@@ -1,6 +1,6 @@
 # aggmetrics Diagnostics Reference
 
-The `diagnose(im)` function analyzes an `IndicatorMatrix` instance and returns structured `Finding` objects to alert users to statistical traps, redundant metrics, and misleading performance scores.
+The `diagnose(im)` function analyzes an `IndicatorMatrix` instance and returns structured `Finding` objects (eight codes, listed below) to alert users to statistical traps, redundant metrics, and misleading performance scores.
 
 ---
 
@@ -30,9 +30,13 @@ The `diagnose(im)` function analyzes an `IndicatorMatrix` instance and returns s
 - **Condition**: The number of evaluated measures exceeds the intrinsic degrees of freedom $d = m(m-1)$ (or $d=2$ in binary).
 - **Insight**: Extra scalar metrics beyond canonical bases have collinear gradients and yield redundant information.
 
-### 7. `undefined_entries` (`severity: note`)
+### 7. `undefined_entries` (`severity: warning`)
 - **Condition**: Some classes or instances have undefined counts (e.g. zero predictions or zero ground-truth instances resulting in $0/0$).
-- **Insight**: Shows how much the chosen convention (`exclude`, `zero`, `one`) affects the final macro/exemplar score.
+- **Insight**: Shows how much the chosen convention (`exclude`, `zero`, `one`) affects the final macro/exemplar score. The message gives the value under `exclude` and under `zero`.
+
+### 8. `not_erm_consistent` (`severity: note`)
+- **Condition**: A measure's closed-form Bayes threshold is not 0.5 (for example `recall`, `fnr`, `specificity`, `fpr`).
+- **Insight**: Standard training, which targets the error rate at threshold 0.5, does not target such a measure; the decision threshold has to be tuned for it.
 
 ---
 

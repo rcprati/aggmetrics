@@ -133,8 +133,12 @@ whose optimal decision rule is not the Bayes rule for 0/1 loss.
 - **Observation masks** for partial labels, semi-supervised evaluation and abstention.
 - **scikit-learn scorers** via `make_scorer`, usable in `cross_val_score` and
   `GridSearchCV`.
-- **AI Agent Skills included** (`.agents/skills/aggmetrics-guide/`), providing machine-readable
-  runbooks, axiomatic invariants, and diagnostic protocols for AI coding assistants.
+- **A skill for AI coding assistants** (`.agents/skills/aggmetrics-guide/`): a guide that tells an
+  assistant how to evaluate with the package, what to check before reporting a number (operator,
+  convention, `diagnose`, pooled folds, degenerate optima) and which notebook shows each pitfall. It
+  includes reference pages for each part of the theory and a worked session with real output. To use
+  it in your own project, copy the folder to `.claude/skills/` (Claude Code) or to the place your
+  assistant reads skills from.
 
 ## The test suite verifies the theory
 
