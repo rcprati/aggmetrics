@@ -181,6 +181,7 @@ practitioner recognises, shows what the usual tools report, and then what `aggme
 | [08 Soft labels](examples/notebooks/08_soft_labels.ipynb) | Image classifiers against the distribution of 50 human annotators (CIFAR-10H): does the soft reference change the verdict, where do the models err, and a simulation of when it reverses the verdict | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/08_soft_labels.ipynb) |
 | [09 Segmentation](examples/notebooks/09_segmentation.ipynb) | Cell nuclei (BBBC039): pixel accuracy gives 0.82 to a predictor that outputs nothing; pooled and per-image IoU, and the convention for images with no object | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/09_segmentation.ipynb) |
 | [10 Custom measures](examples/notebooks/10_custom_measures.ipynb) | Register your own formula: what is inferred (decomposable, skew-invariant), what follows on data, and a piecewise measure on which the inference is wrong | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/10_custom_measures.ipynb) |
+| [11 PyTorch and Keras](examples/notebooks/11_torch_and_keras.ipynb) | Evaluating framework models: logits, pooling batches instead of averaging a measure over them (macro-MCC 11% higher in the averaged form), accumulating counts, and a Keras callback that logs a measure per epoch | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/11_torch_and_keras.ipynb) |
 
 The notebooks and their data are in the repository, not in the pip package. The Colab badges
 need nothing installed. To run them locally, clone the repository (the `examples` extra installs
@@ -189,7 +190,7 @@ only the libraries the notebooks use):
 ```bash
 git clone https://github.com/rcprati/aggmetrics
 cd aggmetrics
-pip install -e ".[examples]" jupyter
+pip install -e ".[examples]" jupyter     # add ,deep to the extras for notebook 11 (torch, keras)
 jupyter lab examples/notebooks
 ```
 

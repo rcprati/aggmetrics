@@ -18,7 +18,7 @@ Code that cannot be reached (a defensive guard) is marked `# pragma: no cover` w
 reason.
 
 **Notebooks.** The notebooks in `examples/notebooks` are committed with their outputs and
-re-executed in continuous integration (`pytest --nbmake examples/notebooks`). They run offline, with
+re-executed in continuous integration (`pytest --nbmake examples/notebooks`). They run offline (notebook 11 needs the `deep` extra, torch and keras), with
 one exception: the data they need are in `examples/data`, with their source and citation, except the
 CIFAR-10H human labels used by notebook 08, which are licensed CC BY-NC-SA 4.0 and are downloaded from
 GitHub (a fixed commit, with a hash check) when the notebook runs.
