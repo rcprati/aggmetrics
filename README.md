@@ -230,6 +230,19 @@ The paper is:
 }
 ```
 
+The package itself is described in a preprint ([arXiv:2610.30456](https://arxiv.org/abs/2610.30456)):
+
+```bibtex
+@misc{prati2026aggmetricspaper,
+  author        = {Prati, Ronaldo C.},
+  title         = {aggmetrics: Aggregating Classification Performance Measures for Machine Learning},
+  year          = {2026},
+  eprint        = {2610.30456},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG}
+}
+```
+
 ## License
 
 BSD 3-Clause.

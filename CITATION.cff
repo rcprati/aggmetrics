@@ -30,3 +30,16 @@ references:
     doi: "10.1016/j.inffus.2026.104767"
     url: "https://doi.org/10.1016/j.inffus.2026.104767"
     notes: "Article 104767. Companion paper establishing the theory the package implements."
+  - type: article
+    title: "aggmetrics: Aggregating Classification Performance Measures for Machine Learning"
+    authors:
+      - family-names: Prati
+        given-names: Ronaldo C.
+    journal: arXiv
+    year: 2026
+    month: 10
+    identifiers:
+      - type: other
+        value: "arXiv:2610.30456"
+    url: "https://arxiv.org/abs/2610.30456"
+    notes: "Preprint describing the package."
