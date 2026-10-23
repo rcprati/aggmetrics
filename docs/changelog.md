@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Example notebook 11: evaluating PyTorch and Keras models (logits, pooling batches instead of averaging a
+  measure over them, accumulated counts, a Keras callback). It needs the new extra `deep` (torch, keras 3).
+
 ## 0.1.1 (2026-10-22)
 
 Archived on Zenodo: [10.5281/zenodo.23585309](https://doi.org/10.5281/zenodo.23585309) for this version,

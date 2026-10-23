@@ -39,7 +39,7 @@ jobs:
       - name: Execute the example notebooks
         if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
         run: |
-          python -m pip install nbmake matplotlib
+          python -m pip install nbmake matplotlib keras torch --extra-index-url https://download.pytorch.org/whl/cpu
           python -m pytest --nbmake --nbmake-timeout=600 examples/notebooks -q
       - name: Build the documentation (warnings are errors)
         if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
