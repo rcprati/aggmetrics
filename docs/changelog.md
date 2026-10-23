@@ -2,6 +2,9 @@
 
 ## 0.1.1 (2026-10-22)
 
+Archived on Zenodo: [10.5281/zenodo.23585309](https://doi.org/10.5281/zenodo.23585309) for this version,
+[10.5281/zenodo.23535051](https://doi.org/10.5281/zenodo.23535051) for all versions. Published on PyPI on 2026-10-23.
+
 - Citation: the preprint describing the package ([arXiv:2610.30456](https://arxiv.org/abs/2610.30456)) is
   listed in `CITATION.cff` and the README.
 - `diagnose` no longer reports undefined per-example entries (`undefined_entries` for the exemplar
