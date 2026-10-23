@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Citation: the preprint describing the package ([arXiv:2610.30456](https://arxiv.org/abs/2610.30456)) is
+  listed in `CITATION.cff` and the README.
 - `diagnose` no longer reports undefined per-example entries (`undefined_entries` for the exemplar
   operator) on binary problems, where each example has a single label and every negative would be flagged.
 - Example notebooks 04 to 10: ordinal grades and costs, model selection, long-tailed images,
