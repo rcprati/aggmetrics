@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 (2026-10-22)
 
 - Citation: the preprint describing the package ([arXiv:2610.30456](https://arxiv.org/abs/2610.30456)) is
   listed in `CITATION.cff` and the README.
@@ -9,6 +9,11 @@
 - Example notebooks 04 to 10: ordinal grades and costs, model selection, long-tailed images,
   thresholds, soft labels (with the CIFAR-10H human labels), segmentation (with a CC0 subset of BBBC039), and
   custom measures.
+- The package is clean under `ruff` (pycodestyle, pyflakes, import order, 88 columns), which CI now
+  checks. `Sequence` was an undefined name in two annotations in `aggregation.py`; it is now imported.
+  No behaviour changed apart from the `diagnose` item above.
+- The notebooks and their data are in the repository, not in the pip package; the README and the
+  installation page now say so.
 
 ## 0.1.0 (2026-10-21)
 
