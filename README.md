@@ -203,7 +203,8 @@ python examples/quickstart.py
 
 Please cite both the software and the companion paper. The software is archived on Zenodo:
 the DOI [10.5281/zenodo.23535051](https://doi.org/10.5281/zenodo.23535051) always resolves to the
-latest version, and version 0.1.0 is [10.5281/zenodo.23535052](https://doi.org/10.5281/zenodo.23535052).
+latest version, version 0.1.1 is [10.5281/zenodo.23585309](https://doi.org/10.5281/zenodo.23585309) and
+version 0.1.0 is [10.5281/zenodo.23535052](https://doi.org/10.5281/zenodo.23535052).
 GitHub's "Cite this repository" button reads `CITATION.cff`. In BibTeX:
 
 ```bibtex
