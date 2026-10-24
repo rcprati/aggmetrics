@@ -145,4 +145,6 @@ def calibrate_threshold(run_null: Callable[[int], float], *, n_runs: int = 200,
     if len(maxima) < n_runs // 2:
         raise ValueError("most null runs produced no statistic: lengthen the stream "
                          "or shorten the warm-up")
-    return float(np.quantile(maxima, 1.0 - target, method="higher"))
+    maxima.sort()
+    # the smallest maximum that at most a share ``target`` of the runs exceed
+    return float(maxima[int(np.ceil((1.0 - target) * len(maxima))) - 1])
