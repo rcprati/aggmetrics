@@ -229,8 +229,8 @@ mcc_averaged = fold_aggregate(folds, measure="mcc", how="macro", pooling="averag
 ### 11. Prior Shift, Several Targets and Taxonomies
 
 ```python
-from aggmetrics import (denominator_balance, multioutput_aggregate, tree_cost_matrix,
-                        under_prior)
+from aggmetrics import (denominator_balance, multioutput_aggregate, pu_correct,
+                        tree_cost_matrix, under_prior)
 
 # What would this measure be if the classes had another frequency? (label shift: the
 # rates of each class stay, only the class sizes change; the exemplar operator is excluded)
@@ -243,6 +243,12 @@ multioutput_aggregate([im, im], "recall", "target", within="macro")
 
 # A taxonomy as a cost matrix (edges between classes), then the usual cost
 C = tree_cost_matrix({"root": None, "A": "root", "B": "root", "a1": "A", "a2": "A", "b1": "B"})
+
+# Positive-unlabeled data (ground truth = observed labels): correct the cells for the propensity,
+# which must be supplied. Recall is unchanged; precision is biased until corrected.
+pu_im = IndicatorMatrix(np.array([1] * 200 + [0] * 1800),
+                        np.array([1] * 150 + [0] * 50 + [1] * 350 + [0] * 1450), task="binary")
+pu_correct(pu_im, propensity=0.5).compute("precision")   # 0.6, against 0.3 nominal
 
 # Are micro and macro the same number on this data? (Corollary 1: equal per-class denominators)
 denominator_balance(im, "recall")["balanced"]

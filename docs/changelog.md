@@ -4,6 +4,9 @@
 
 - `under_prior`: evaluate a measure at another class prior (label shift), from the skew results of the
   paper. Notebook 06 uses it in place of its hand-written reweighting (same numbers).
+- `pu_correct`: the cells of positive-unlabeled data corrected for the labelling propensity (or the
+  prevalence), from the PU section of the paper. Recall is unchanged, precision and the measures that use
+  `fp` or `tn` are not.
 - `multioutput_aggregate`: the target-wise operator of the paper for several targets, and the usual
   operators over the block-structured matrix.
 - `tree_cost_matrix`: a cost matrix from the edge distances of a taxonomy (hierarchical classification).

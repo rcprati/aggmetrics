@@ -71,6 +71,7 @@ from .inference import (
 )
 from .measures import MEASURES, BinaryMeasure, get_measure, list_measures
 from .multioutput import multioutput_aggregate
+from .pu import PUCorrected, pu_correct
 from .shift import PriorShifted, under_prior
 from .sklearn_compat import make_scorer, score, sklearn_average
 from .suites import SuiteRank, SuiteSelection, select_suite, suite_jacobian, suite_rank
@@ -119,6 +120,8 @@ __all__ = [
     "PriorShifted",
     "multioutput_aggregate",
     "tree_cost_matrix",
+    "pu_correct",
+    "PUCorrected",
     # choosing a suite of measures (Remark 2)
     "suite_jacobian",
     "suite_rank",

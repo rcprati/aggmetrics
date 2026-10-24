@@ -20,6 +20,7 @@ Section and result numbers are those of the published article.
 | Partial and missing labels via masking | Section 6.5 | `mask=` argument |
 | The fold operator $\Sigma_k$; pooled versus averaged evaluation | Section 6.19 | `fold_aggregate`, `sigma_k` |
 | Aggregation-decomposable measures; micro equals denominator-weighted macro | Definition 7, Proposition 1, Theorem 1 (7.1) | `BinaryMeasure.decomposable`, `numerator`, `denominator`; `list_measures(decomposable=True)` |
+| Positive-unlabeled data: recall is unaffected by the labelling propensity, precision is biased | Section 6 (positive-unlabeled learning) | `pu_correct` |
 | Micro equals unweighted macro if and only if the denominators are balanced | Corollary 1 (7.1) | `denominator_balance`; the `balanced_denominators` finding |
 | The target-wise operator for several targets | Section 6 (multi-output) | `multioutput_aggregate` |
 | Hierarchical classification as a cost matrix (the taxonomy distance is a choice) | Section 6 (hierarchical) | `tree_cost_matrix`, then `IndicatorMatrix.cost` |

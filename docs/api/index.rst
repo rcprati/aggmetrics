@@ -15,5 +15,6 @@ The public names below are importable from ``aggmetrics`` directly.
    shift
    multioutput
    costs
+   pu
    tnorms
    sklearn_compat

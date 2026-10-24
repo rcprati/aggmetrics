@@ -15,6 +15,7 @@ from aggmetrics import (
     diagnose,
     get_measure,
     multioutput_aggregate,
+    pu_correct,
     tree_cost_matrix,
     under_prior,
 )
@@ -284,3 +285,94 @@ def test_tree_cost_matrix_rejects_malformed_taxonomies(tree, match):
 def test_tree_cost_matrix_rejects_unknown_classes():
     with pytest.raises(ValueError, match="not in the taxonomy"):
         tree_cost_matrix(TREE, classes=["a1", "zzz"])
+
+
+# -- positive-unlabeled learning ----------------------------------------------
+
+def pu_observed(tp=300, fp=200, fn=100, tn=1400, c=0.5):
+    """Observed PU data whose cells are those the latent cells give in expectation."""
+    obs = (c * tp, fp + (1 - c) * tp, c * fn, tn + (1 - c) * fn)
+    tp_o, fp_o, fn_o, tn_o = (int(round(x)) for x in obs)
+    s = np.array([1] * (tp_o + fn_o) + [0] * (fp_o + tn_o))
+    p = np.array([1] * tp_o + [0] * fn_o + [1] * fp_o + [0] * tn_o)
+    return IndicatorMatrix(s, p, task="binary")
+
+
+def test_pu_correction_recovers_the_latent_cells_exactly_in_expectation():
+    im = pu_observed()                                  # latent 300, 200, 100, 1400 at c = 0.5
+    fixed = pu_correct(im, propensity=0.5)
+    assert [round(float(x)) for x in fixed.counts] == [300, 200, 100, 1400]
+    assert fixed.compute("precision") == pytest.approx(300 / 500)
+    assert fixed.compute("specificity") == pytest.approx(1400 / 1600)
+    assert fixed.accuracy() == pytest.approx(1700 / 2000)
+    assert fixed.n == im.n and fixed.propensity == 0.5
+    assert fixed.priors[0] == pytest.approx(400 / 2000)       # the latent prevalence
+
+
+def test_pu_recall_is_the_same_for_every_propensity_and_precision_is_biased():
+    # Section 6: the propensity cancels in recall, and fp_obs mixes in latent positives
+    im = pu_observed()
+    nominal_precision = im.compute("precision")
+    for c in (0.5, 0.7, 1.0):
+        fixed = pu_correct(im, propensity=c)
+        assert fixed.compute("recall") == pytest.approx(im.compute("recall"))
+    assert pu_correct(im, propensity=0.5).compute("precision") > nominal_precision
+    # at c = 1 nothing is hidden: the observed labels are the latent ones
+    one = pu_correct(im, propensity=1.0)
+    assert one.compute("precision") == pytest.approx(nominal_precision)
+    assert [float(x) for x in one.counts] == pytest.approx(list(im.counts))
+
+
+def test_pu_prior_and_propensity_describe_the_same_correction():
+    im = pu_observed()
+    by_c = pu_correct(im, propensity=0.5)
+    by_prior = pu_correct(im, prior=400 / 2000)
+    assert by_prior.propensity == pytest.approx(0.5)
+    assert by_prior.compute("f1") == pytest.approx(by_c.compute("f1"))
+
+
+def test_pu_correction_on_a_simulated_scar_labelling():
+    r = np.random.default_rng(7)
+    n, c = 200_000, 0.4
+    y = (r.random(n) < 0.2).astype(int)                        # latent labels
+    p = np.where(r.random(n) < 0.85, y, 1 - y)                 # a classifier, 85% right
+    s = ((y == 1) & (r.random(n) < c)).astype(int)             # observed labels
+    truth = IndicatorMatrix(y, p, task="binary")
+    observed = IndicatorMatrix(s, p, task="binary")
+    fixed = pu_correct(observed, propensity=c)
+    for ms in ("precision", "specificity", "f1"):
+        assert fixed.compute(ms) == pytest.approx(truth.compute(ms), abs=0.01)
+    assert abs(observed.compute("precision") - truth.compute("precision")) > 0.2
+
+
+def test_pu_correction_rejects_bad_input():
+    im = pu_observed()
+    with pytest.raises(ValueError, match="exactly one"):
+        pu_correct(im)
+    with pytest.raises(ValueError, match="exactly one"):
+        pu_correct(im, propensity=0.5, prior=0.2)
+    for bad in (0.0, 1.2, -0.1):
+        with pytest.raises(ValueError, match="propensity must be"):
+            pu_correct(im, propensity=bad)
+    with pytest.raises(ValueError, match="prior must be"):
+        pu_correct(im, prior=0.0)
+    with pytest.raises(ValueError, match="smaller than the share"):
+        pu_correct(im, prior=0.05)                          # c would exceed 1
+    with pytest.raises(ValueError, match="too small"):
+        pu_correct(im, propensity=0.2)                      # needs negative counts
+    with pytest.raises(ValueError, match="binary"):
+        pu_correct(multiclass(), propensity=0.5)
+
+
+def test_pu_correction_without_observed_positives_keeps_the_negatives():
+    im = IndicatorMatrix(np.zeros(10, int), np.array([0] * 8 + [1] * 2), task="binary")
+    fixed = pu_correct(im, propensity=0.9)
+    assert [float(x) for x in fixed.counts] == pytest.approx([0.0, 2.0, 0.0, 8.0])
+    assert fixed.compute("specificity") == pytest.approx(0.8)
+
+
+def test_pu_correction_when_every_prediction_is_positive():
+    im = IndicatorMatrix([1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1], task="binary")
+    fixed = pu_correct(im, propensity=0.5)       # tn_obs = 0 and fn_obs = 0: nothing to correct
+    assert fixed.compute("recall") == pytest.approx(1.0)
+    assert fixed.n == 6

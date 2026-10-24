@@ -132,7 +132,8 @@ whose optimal decision rule is not the Bayes rule for 0/1 loss.
 - **Cost matrices**, recovering MAE and MSE as special cases, and `tree_cost_matrix` for
   hierarchical classification.
 - **Prior shift**: `under_prior` evaluates a measure at another class prevalence, and
-  `multioutput_aggregate` handles several targets.
+  `multioutput_aggregate` handles several targets, and `pu_correct` corrects positive-unlabeled
+  data for the labelling propensity.
 - **Observation masks** for partial labels, semi-supervised evaluation and abstention.
 - **scikit-learn scorers** via `make_scorer`, usable in `cross_val_score` and
   `GridSearchCV`.
