@@ -14,6 +14,7 @@ custom_measures
 suites
 prior_shift
 scores
+stream
 pu_learning
 sklearn
 ```

@@ -14,6 +14,7 @@ The public names below are importable from ``aggmetrics`` directly.
    suites
    shift
    scores
+   stream
    multioutput
    costs
    pu

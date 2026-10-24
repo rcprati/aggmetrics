@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- New subpackage `aggmetrics.stream` (**experimental**): prequential evaluation of data streams.
+  `TemporalState` keeps a confusion matrix under exponential fading or a sliding window and evaluates
+  every measure of the registry on it, with the aggregation operators, the zero-division conventions, the
+  audit of which classes have a value, and `compute(..., prior=)` for a value at a reference class prior.
+  `ClassTimeState` estimates the rates with each class forgetting on its own arrivals, free of the prior.
+  `DelayedEvaluator` handles labels that arrive late or never (interim term by the product t-norm,
+  correction, eviction, verified and interim support, coverage). `attribute` splits the change of a
+  measure between two snapshots into a concept part and a prior part. `stream.sizing` gives the formulas
+  to size a window or a fading factor before deployment. `RateMonitor` and `calibrate_threshold` are a
+  chi-square monitor of the rates and its calibration. Needs only NumPy.
+- `Rates.from_confusion` builds the rates model from a confusion matrix (internal, used by the stream states).
+
 ## 0.3.0 (2026-11-01)
 
 Archived on Zenodo: [10.5281/zenodo.23867295](https://doi.org/10.5281/zenodo.23867295) for this version,
