@@ -1,5 +1,9 @@
 # Choosing which measures to report
 
+:::{note}
+This module is experimental. Its signatures may change in a later 0.x release.
+:::
+
 A confusion matrix has few degrees of freedom: two for a binary problem (recall and
 specificity, with the class sizes fixed), $m(m-1)$ for $m$ classes, $2m$ for $m$ labels.
 Every other measure is a function of those, so a table with accuracy, balanced accuracy and

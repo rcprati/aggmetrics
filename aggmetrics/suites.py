@@ -3,6 +3,8 @@
 """
 Choosing a suite of measures that carries as much information as possible.
 
+Experimental: the signatures may change in a later 0.x release.
+
 Remark 2 of the companion paper states a criterion for a *non-redundant* suite: a
 set of ``k <= d`` measures is locally non-redundant if and only if the Jacobian
 of the measures with respect to the free parameters of the confusion matrix has
