@@ -33,14 +33,7 @@ class Rates:
         self.task = "multiclass" if im.task == "multiclass" else "columns"
         self.n = Y.shape[0]
         if self.task == "multiclass":
-            self.m = Y.shape[1]
-            C = Y.T @ P
-            self.nj = C.sum(axis=1)
-            rows = C / np.where(self.nj == 0, 1.0, self.nj)[:, None]
-            self.pairs = [(j, k) for j in range(self.m)
-                          for k in range(self.m) if j != k]
-            self.theta = np.array([rows[j, k] for j, k in self.pairs])
-            self.names = [f"R[{j},{k}]" for j, k in self.pairs]
+            self._set_multiclass(Y.T @ P)
         else:
             self.m = Y.shape[1]
             self.pos = Y.sum(axis=0)
@@ -55,6 +48,49 @@ class Rates:
             else:
                 self.names = [f"{k}[{j}]" for j in range(self.m)
                               for k in ("recall", "specificity")]
+
+    def _set_multiclass(self, C):
+        self.m = C.shape[0]
+        self.nj = C.sum(axis=1)
+        rows = C / np.where(self.nj == 0, 1.0, self.nj)[:, None]
+        self.pairs = [(j, k) for j in range(self.m)
+                      for k in range(self.m) if j != k]
+        self.theta = np.array([rows[j, k] for j, k in self.pairs])
+        self.names = [f"R[{j},{k}]" for j, k in self.pairs]
+
+    @classmethod
+    def from_confusion(cls, C, task="multiclass"):
+        """The cells as functions of the rates of a confusion matrix.
+
+        ``C[j, k]`` is the (possibly weighted) number of examples of true class
+        ``j`` predicted as ``k``. ``task='binary'`` requires two classes and
+        reads class 1 as the positive one, as ``IndicatorMatrix`` does; the
+        parameters are then ``(recall, specificity)``.
+        """
+        C = np.asarray(C, float)
+        if C.ndim != 2 or C.shape[0] != C.shape[1] or C.shape[0] < 2:
+            raise ValueError("C must be a square confusion matrix with >= 2 classes")
+        if (C < 0).any():
+            raise ValueError("C must be non-negative")
+        self = cls.__new__(cls)
+        self.n = float(C.sum())
+        if task == "multiclass":
+            self.task = "multiclass"
+            self._set_multiclass(C)
+        elif task == "binary":
+            if C.shape[0] != 2:
+                raise ValueError("task 'binary' needs a 2 x 2 confusion matrix")
+            self.task = "columns"
+            self.m = 1
+            self.pos = np.array([C[1].sum()])
+            self.neg = np.array([C[0].sum()])
+            rec = C[1, 1] / self.pos if self.pos[0] > 0 else np.zeros(1)
+            spec = C[0, 0] / self.neg if self.neg[0] > 0 else np.zeros(1)
+            self.theta = np.array([rec[0], spec[0]])
+            self.names = ["recall", "specificity"]
+        else:
+            raise ValueError("task must be 'binary' or 'multiclass'")
+        return self
 
     def with_priors(self, priors):
         """Same rates, class sizes changed to those of ``priors`` (total ``n``).
