@@ -2,6 +2,9 @@
 
 ## 0.2.0 (2026-10-24)
 
+Archived on Zenodo: [10.5281/zenodo.23618910](https://doi.org/10.5281/zenodo.23618910) for this version,
+[10.5281/zenodo.23535051](https://doi.org/10.5281/zenodo.23535051) for all versions. Published on PyPI on 2026-10-24.
+
 - New module `aggmetrics.suites`: `suite_jacobian`, `suite_rank` and `select_suite` implement the rank
   criterion of Remark 2 (is a suite of measures locally non-redundant?) and add an information-volume score
   to pick the most informative suite. **Experimental**: the signatures may change in a later 0.x release.
