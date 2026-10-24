@@ -37,6 +37,7 @@ from typing import Optional, Sequence, Tuple, Union
 
 import numpy as np
 
+from ._rates import Rates
 from .measures import get_measure, list_measures
 
 Item = Union[str, Tuple[str, str]]
@@ -86,82 +87,6 @@ def _items(measures: Sequence[Item], aggregation: str):
     return out
 
 
-class _Model:
-    """Cells of the data as functions of its free confusion-matrix parameters."""
-
-    def __init__(self, im):
-        if im.mask is not None or im.tnorm is not None:
-            raise ValueError("masks and t-norms are not supported")
-        Y = np.asarray(im.Y, float)
-        P = np.asarray(im.P, float)
-        self.task = "multiclass" if im.task == "multiclass" else "columns"
-        if im.task not in ("binary", "multiclass", "multilabel"):
-            raise ValueError(f"task {im.task!r} is not supported")
-        self.n = Y.shape[0]
-        if self.task == "multiclass":
-            self.m = Y.shape[1]
-            C = Y.T @ P
-            self.nj = C.sum(axis=1)
-            rows = C / np.where(self.nj == 0, 1.0, self.nj)[:, None]
-            self.pairs = [(j, k) for j in range(self.m)
-                          for k in range(self.m) if j != k]
-            self.theta = np.array([rows[j, k] for j, k in self.pairs])
-            self.names = [f"R[{j},{k}]" for j, k in self.pairs]
-            self.upper = np.ones_like(self.theta)
-        else:
-            pos = Y.sum(axis=0)
-            self.pos, self.neg = pos, self.n - pos
-            tp = (Y * P).sum(axis=0)
-            tn = ((1 - Y) * (1 - P)).sum(axis=0)
-            rec = tp / np.where(pos == 0, 1.0, pos)
-            spec = tn / np.where(self.neg == 0, 1.0, self.neg)
-            self.theta = np.column_stack([rec, spec]).ravel()
-            if im.task == "binary" or Y.shape[1] == 1:
-                self.names = ["recall", "specificity"]
-            else:
-                self.names = [f"{k}[{j}]" for j in range(Y.shape[1])
-                              for k in ("recall", "specificity")]
-            self.upper = np.ones_like(self.theta)
-
-    def cells(self, theta):
-        """``(tp, fp, fn, tn)`` per class or label for the parameters ``theta``."""
-        if self.task == "multiclass":
-            W = np.zeros((self.m, self.m))
-            for (j, k), v in zip(self.pairs, theta):
-                W[j, k] = self.nj[j] * v
-            W[np.diag_indices(self.m)] = self.nj - W.sum(axis=1)
-            tp = np.diag(W)
-            fn = self.nj - tp
-            fp = W.sum(axis=0) - tp
-            tn = self.n - tp - fn - fp
-            return tp, fp, fn, tn
-        rec, spec = theta[0::2], theta[1::2]
-        return (self.pos * rec, self.neg * (1 - spec),
-                self.pos * (1 - rec), self.neg * spec)
-
-    def value(self, measure, how, theta):
-        tp, fp, fn, tn = self.cells(theta)
-        meas = get_measure(measure)
-        if how == "micro":
-            return meas(tp.sum(), fp.sum(), fn.sum(), tn.sum())
-        per = np.array([meas(*c) for c in zip(tp, fp, fn, tn)], float)
-        if how == "macro":
-            return float(np.nanmean(per))
-        w = tp + fn
-        ok = ~np.isnan(per)
-        return float((w[ok] * per[ok]).sum() / w[ok].sum())
-
-    def gradient(self, measure, how, h=1e-6):
-        g = np.empty_like(self.theta)
-        for i, t in enumerate(self.theta):
-            lo, hi = max(t - h, 0.0), min(t + h, 1.0)
-            a, b = self.theta.copy(), self.theta.copy()
-            a[i], b[i] = lo, hi
-            change = self.value(measure, how, b) - self.value(measure, how, a)
-            g[i] = change / (hi - lo)
-        return g
-
-
 def _jacobian(model, items):
     with np.errstate(all="ignore"), warnings.catch_warnings():
         warnings.simplefilter("ignore")
@@ -195,7 +120,7 @@ def suite_jacobian(im, measures: Sequence[Item],
     ``names`` labels the columns. A measure is a name or a ``(name, operator)``
     pair; a bare name uses ``aggregation``.
     """
-    model = _Model(im)
+    model = Rates(im)
     return _jacobian(model, _items(measures, aggregation)), list(model.names)
 
 
@@ -210,7 +135,7 @@ def suite_rank(im, measures: Sequence[Item], aggregation: str = "macro",
     ``flat``. ``volume`` is the information volume described in the module
     docstring.
     """
-    model = _Model(im)
+    model = Rates(im)
     items = _items(measures, aggregation)
     J = _jacobian(model, items)
     unit, flat = _unit_rows(J, tol)
@@ -236,7 +161,7 @@ def select_suite(im, candidates: Optional[Sequence[Item]] = None,
     volume are broken by the order of ``candidates``. Candidates whose gradient
     vanishes at the data are never chosen.
     """
-    model = _Model(im)
+    model = Rates(im)
     if candidates is None:
         # measures where greater is better come first, so that they win ties
         candidates = sorted(list_measures(),

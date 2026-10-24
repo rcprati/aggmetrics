@@ -20,14 +20,18 @@ Section and result numbers are those of the published article.
 | Partial and missing labels via masking | Section 6.5 | `mask=` argument |
 | The fold operator $\Sigma_k$; pooled versus averaged evaluation | Section 6.19 | `fold_aggregate`, `sigma_k` |
 | Aggregation-decomposable measures; micro equals denominator-weighted macro | Definition 7, Proposition 1, Theorem 1 (7.1) | `BinaryMeasure.decomposable`, `numerator`, `denominator`; `list_measures(decomposable=True)` |
+| Positive-unlabeled data: recall is unaffected by the labelling propensity, precision is biased | Section 6 (positive-unlabeled learning) | `pu_correct` |
+| Micro equals unweighted macro if and only if the denominators are balanced | Corollary 1 (7.1) | `denominator_balance`; the `balanced_denominators` finding |
+| The target-wise operator for several targets | Section 6 (multi-output) | `multioutput_aggregate` |
+| Hierarchical classification as a cost matrix (the taxonomy distance is a choice) | Section 6 (hierarchical) | `tree_cost_matrix`, then `IndicatorMatrix.cost` |
 | Micro-averaging escaping the per-class range | Remark 1, Example 1 (7.1) | `check_hull`; the `outside_hull` finding |
 | Micro-precision, micro-recall and micro-$F_1$ collapse to accuracy | Theorem 2 (7.2) | the `micro_collapse` finding |
 | Degrees of freedom, the (recall, specificity) basis, redundant suites | Proposition 3, Remark 2 (7.2) | `degrees_of_freedom`, `canonical_coordinates`, `check_redundancy`; the Jacobian rank criterion of Remark 2 is `suite_rank`, and `select_suite` adds a score the paper does not state |
 | The product t-norm is the unique marginally consistent one | Definition 8, Theorem 3, Corollary 3 (7.3) | `marginal_defect` |
 | Ordinal losses as cost matrices | Theorem 4, Corollary 4 (7.3) | `IndicatorMatrix.cost` |
 | Lower boundary correctness fails under one-hot encoding (floors) | Proposition 5 (7.4) | `BinaryMeasure.attainable_floor`; the `inflated_floor` finding |
-| Skew-invariant binary measures | Definition 11, Theorem 5 (7.5) | `BinaryMeasure.skew_invariant` |
-| Prior dependence of one-vs-rest rates | Proposition 6 (7.6) | `uniform_error_deviation`, `check_ovr_skew_drift` |
+| Skew-invariant binary measures | Definition 11, Theorem 5 (7.5) | `BinaryMeasure.skew_invariant`; `under_prior` evaluates a measure at another class prior |
+| Prior dependence of one-vs-rest rates | Proposition 6 (7.6) | `uniform_error_deviation`, `check_ovr_skew_drift`, `under_prior` |
 | The micro-macro gap as a normalised covariance | Corollary 6 (7.7) | `micro_macro_gap` |
 | Undefined denominators and the convention for them | Section 7.8 | the `convention` argument; the `undefined_entries` finding |
 | Bayes-optimal thresholds, ERM-consistency, degenerate optima | Proposition 9 (7.9) | `BinaryMeasure.bayes_threshold`, `erm_consistent`; the `degenerate_optimum` finding |

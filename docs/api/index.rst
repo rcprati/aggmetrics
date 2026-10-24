@@ -12,5 +12,9 @@ The public names below are importable from ``aggmetrics`` directly.
    diagnostics
    inference
    suites
+   shift
+   multioutput
+   costs
+   pu
    tnorms
    sklearn_compat

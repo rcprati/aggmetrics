@@ -105,3 +105,27 @@ appearance of an example as a separate row.
 values, as in the {doc}`multilabel notebook <../gallery/03_multilabel_ranking>`, is a useful
 indication, but the folds share training data, so their standard deviation understates the
 uncertainty of the estimate. Treat it as a lower bound, not as a confidence interval.
+
+## Several targets
+
+With several targets, the data are one indicator matrix per target on the same examples, and the
+paper adds a target-wise operator that averages the measure computed within each target.
+`multioutput_aggregate` computes it, and also applies the usual operators to the block-structured
+matrix of all targets:
+
+```python
+import numpy as np
+from aggmetrics import IndicatorMatrix, multioutput_aggregate
+
+y1 = np.array([0, 1, 1, 0, 1, 0]); p1 = np.array([0, 1, 0, 0, 1, 1])      # a binary target
+y2 = np.array([0, 1, 2, 2, 1, 0]); p2 = np.array([0, 2, 2, 1, 1, 1])      # a three-class target
+ims = [IndicatorMatrix(y1, p1, task="multiclass"), IndicatorMatrix(y2, p2, task="multiclass")]
+
+multioutput_aggregate(ims, "recall", "target")              # 0.583: mean of the two targets
+multioutput_aggregate(ims, "recall", "micro")               # 0.583: all cells pooled
+multioutput_aggregate(ims, "recall", "macro")               # 0.567: every class of every target
+```
+
+For a decomposable measure the pooled value is the target average weighted by the denominator of each
+target (Theorem 1), and the two coincide when the denominators are equal (Corollary 1). Here both targets
+have six examples, so they do. With `how="target"`, `within` chooses the operator inside each target.

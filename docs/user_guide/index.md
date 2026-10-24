@@ -12,5 +12,7 @@ ordinal_cost
 model_comparison
 custom_measures
 suites
+prior_shift
+pu_learning
 sklearn
 ```

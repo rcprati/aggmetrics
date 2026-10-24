@@ -76,3 +76,22 @@ actually report, and filter on the codes that matter to you, rather than failing
 
 `check_hull`, `check_ovr_skew_drift`, `check_redundancy` and `micro_macro_gap` are available on
 their own; see the {doc}`API reference <../api/diagnostics>`.
+
+## When micro and macro are the same number
+
+Corollary 1 of the paper says that, for a decomposable measure, micro equals unweighted macro for
+every configuration of the per-class values if and only if all per-class denominators are equal.
+For recall the denominator is the class size, so the two coincide when the classes have the same size.
+`denominator_balance` shows the denominators, and `diagnose` reports the `balanced_denominators`
+finding when they are equal:
+
+```python
+from aggmetrics import denominator_balance, diagnose
+
+info = denominator_balance(im, "recall")     # im: three classes of 100 examples each
+info["denominators"], info["balanced"]       # array([100., 100., 100.]), True
+info["micro"], info["macro"]                 # 0.74, 0.74
+```
+
+Measures whose denominator is the total count (`error_rate`, `label_accuracy`) are balanced on any
+data, so `diagnose` does not report them.
