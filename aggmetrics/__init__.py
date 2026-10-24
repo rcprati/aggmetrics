@@ -69,6 +69,7 @@ from .inference import (
 )
 from .measures import MEASURES, BinaryMeasure, get_measure, list_measures
 from .sklearn_compat import make_scorer, score, sklearn_average
+from .suites import SuiteRank, SuiteSelection, select_suite, suite_jacobian, suite_rank
 from .tnorms import TNORMS, get_tnorm, marginal_defect, soft_cells
 
 __all__ = [
@@ -108,6 +109,12 @@ __all__ = [
     "infer_properties",
     "verify_inference",
     "InferredProperties",
+    # choosing a suite of measures (Remark 2)
+    "suite_jacobian",
+    "suite_rank",
+    "select_suite",
+    "SuiteRank",
+    "SuiteSelection",
     # scikit-learn
     "make_scorer",
     "score",

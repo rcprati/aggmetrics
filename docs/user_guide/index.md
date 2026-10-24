@@ -11,5 +11,6 @@ soft_labels
 ordinal_cost
 model_comparison
 custom_measures
+suites
 sklearn
 ```

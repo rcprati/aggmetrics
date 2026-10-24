@@ -11,5 +11,6 @@ The public names below are importable from ``aggmetrics`` directly.
    aggregation
    diagnostics
    inference
+   suites
    tnorms
    sklearn_compat

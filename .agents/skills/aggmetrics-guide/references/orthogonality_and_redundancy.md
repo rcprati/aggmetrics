@@ -60,6 +60,22 @@ if finding:
 
 ---
 
+## 3b. The rank test of Remark 2 on data
+
+`suite_rank(im, measures, aggregation)` computes the Jacobian of the measures with respect to the free
+parameters of the confusion matrix (the class sizes held fixed) and its rank, which is the criterion of
+Remark 2: a suite of $k \le d$ measures is locally non-redundant if and only if the rank is $k$.
+Measures are names or `(name, operator)` pairs with operator `micro`, `macro` or `weighted`. The result
+lists the rank, the singular values, the measures whose gradient vanishes, and an *information volume*.
+
+`select_suite(im, candidates, size)` returns the suite of that size with the largest volume. The volume
+(the rows of the Jacobian scaled to unit length, and the volume they span) is a score added by the package, not
+part of the paper's remark. It is 1 for orthogonal gradients and 0 for a redundant suite. For a binary
+problem the best pair among all measures is (recall, specificity). The Jacobian is local: it changes with the
+model, and masks, soft labels and ordinal data are not supported.
+
+---
+
 ## 4. Best Practices for AI Assistants & Practitioners
 
 1. **Prefer the Orthogonal Basis**: When presenting a concise summary of classifier performance without redundancy:
