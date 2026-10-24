@@ -1,10 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (2026-10-24)
 
 - New module `aggmetrics.suites`: `suite_jacobian`, `suite_rank` and `select_suite` implement the rank
   criterion of Remark 2 (is a suite of measures locally non-redundant?) and add an information-volume score
-  to pick the most informative suite. Notebook 12 and a user-guide page show it on data. 15 new tests.
+  to pick the most informative suite. **Experimental**: the signatures may change in a later 0.x release.
+  Notebook 12 and a user-guide page show it on data. 15 new tests.
 - Example notebook 11: evaluating PyTorch and Keras models (logits, pooling batches instead of averaging a
   measure over them, accumulated counts, a Keras callback). It needs the new extra `deep` (torch, keras 3).
 
