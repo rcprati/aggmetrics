@@ -22,7 +22,7 @@ Section and result numbers are those of the published article.
 | Aggregation-decomposable measures; micro equals denominator-weighted macro | Definition 7, Proposition 1, Theorem 1 (7.1) | `BinaryMeasure.decomposable`, `numerator`, `denominator`; `list_measures(decomposable=True)` |
 | Micro-averaging escaping the per-class range | Remark 1, Example 1 (7.1) | `check_hull`; the `outside_hull` finding |
 | Micro-precision, micro-recall and micro-$F_1$ collapse to accuracy | Theorem 2 (7.2) | the `micro_collapse` finding |
-| Degrees of freedom, the (recall, specificity) basis, redundant suites | Proposition 3, Remark 2 (7.2) | `degrees_of_freedom`, `canonical_coordinates`, `check_redundancy` |
+| Degrees of freedom, the (recall, specificity) basis, redundant suites | Proposition 3, Remark 2 (7.2) | `degrees_of_freedom`, `canonical_coordinates`, `check_redundancy`; the Jacobian rank criterion of Remark 2 is `suite_rank`, and `select_suite` adds a score the paper does not state |
 | The product t-norm is the unique marginally consistent one | Definition 8, Theorem 3, Corollary 3 (7.3) | `marginal_defect` |
 | Ordinal losses as cost matrices | Theorem 4, Corollary 4 (7.3) | `IndicatorMatrix.cost` |
 | Lower boundary correctness fails under one-hot encoding (floors) | Proposition 5 (7.4) | `BinaryMeasure.attainable_floor`; the `inflated_floor` finding |

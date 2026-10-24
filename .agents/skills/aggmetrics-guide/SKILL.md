@@ -49,6 +49,9 @@ notebooks show on real data.
 7. **For soft labels, say what is soft.** A measure that is linear in the predicted probability rewards
    decisiveness, not calibration (notebook 08).
 8. **A custom measure is only as good as its inferred properties.** Check them (notebook 10).
+9. **Do not report measures that are functions of each other.** `suite_rank(im, measures)` says how many
+   of them are independent at this model; with more than two classes, aggregated measures span few of the
+   directions of the confusion matrix, so show the matrix or the per-class rates too (notebook 12).
 
 ---
 
@@ -155,7 +158,21 @@ suite = ["accuracy", "balanced_accuracy", "f1", "recall", "specificity", "precis
 finding = check_redundancy(im, suite)
 if finding:
     print(finding.message)
+
+# Remark 2's rank test: are the measures independent on this data?
+from aggmetrics import select_suite, suite_rank
+
+r = suite_rank(im, [("recall", "macro"), ("fnr", "macro")])   # (measure, operator) pairs
+print(r.rank, r.redundant)                                     # 1 True: fnr = 1 - recall
+
+# the most informative suite among the candidates (micro, macro, weighted only)
+best = select_suite(im, aggregation="macro")
+print(best.items, best.volume)                                 # volume 0 = redundant, 1 = orthogonal
 ```
+
+`suite_rank` implements the criterion of Remark 2 and is local to the data you pass. The information
+volume that `select_suite` maximises is a score added by the package, not a result of the paper. See
+notebook 12.
 
 ### 7. Universal Pareto Dominance (Section 7.11)
 
