@@ -51,12 +51,14 @@ from .aggregation import (
     sigma_n,
 )
 from .core import IndicatorMatrix, pareto_dominance
+from .costs import tree_cost_matrix
 from .diagnostics import (
     Finding,
     MeasureWarning,
     check_hull,
     check_ovr_skew_drift,
     check_redundancy,
+    denominator_balance,
     diagnose,
     micro_macro_gap,
     uniform_error_deviation,
@@ -68,6 +70,8 @@ from .inference import (
     verify_inference,
 )
 from .measures import MEASURES, BinaryMeasure, get_measure, list_measures
+from .multioutput import multioutput_aggregate
+from .shift import PriorShifted, under_prior
 from .sklearn_compat import make_scorer, score, sklearn_average
 from .suites import SuiteRank, SuiteSelection, select_suite, suite_jacobian, suite_rank
 from .tnorms import TNORMS, get_tnorm, marginal_defect, soft_cells
@@ -101,6 +105,7 @@ __all__ = [
     "check_hull",
     "check_ovr_skew_drift",
     "check_redundancy",
+    "denominator_balance",
     "diagnose",
     "micro_macro_gap",
     "uniform_error_deviation",
@@ -109,6 +114,11 @@ __all__ = [
     "infer_properties",
     "verify_inference",
     "InferredProperties",
+    # prior shift, several targets, taxonomies
+    "under_prior",
+    "PriorShifted",
+    "multioutput_aggregate",
+    "tree_cost_matrix",
     # choosing a suite of measures (Remark 2)
     "suite_jacobian",
     "suite_rank",

@@ -49,7 +49,9 @@ notebooks show on real data.
 7. **For soft labels, say what is soft.** A measure that is linear in the predicted probability rewards
    decisiveness, not calibration (notebook 08).
 8. **A custom measure is only as good as its inferred properties.** Check them (notebook 10).
-9. **Do not report measures that are functions of each other.** `suite_rank(im, measures)` says how many
+9. **Say at which prevalence a number holds.** Precision, F1 and MCC depend on how often each class
+   occurs; `under_prior(im, priors)` re-evaluates them at the deployment prevalence (notebook 06).
+10. **Do not report measures that are functions of each other.** `suite_rank(im, measures)` says how many
    of them are independent at this model; with more than two classes, aggregated measures span few of the
    directions of the confusion matrix, so show the matrix or the per-class rates too (notebook 12).
 
@@ -222,6 +224,28 @@ from aggmetrics.aggregation import fold_aggregate
 # Pooled CV (Sigma_k) avoids Jensen's ratio-of-averages distortion for non-linear measures
 mcc_pooled = fold_aggregate(folds, measure="mcc", how="macro", pooling="pooled")
 mcc_averaged = fold_aggregate(folds, measure="mcc", how="macro", pooling="averaged")
+```
+
+### 11. Prior Shift, Several Targets and Taxonomies
+
+```python
+from aggmetrics import (denominator_balance, multioutput_aggregate, tree_cost_matrix,
+                        under_prior)
+
+# What would this measure be if the classes had another frequency? (label shift: the
+# rates of each class stay, only the class sizes change; the exemplar operator is excluded)
+bin_im = IndicatorMatrix(np.array([1] * 80 + [0] * 120),
+                         np.array([1] * 60 + [0] * 20 + [1] * 30 + [0] * 90), task="binary")
+under_prior(bin_im, 0.05).compute("precision")      # 0.136, against 0.667 at 40% positives
+
+# Several targets: 'target' averages the measure within each target; 'micro' pools them all
+multioutput_aggregate([im, im], "recall", "target", within="macro")
+
+# A taxonomy as a cost matrix (edges between classes), then the usual cost
+C = tree_cost_matrix({"root": None, "A": "root", "B": "root", "a1": "A", "a2": "A", "b1": "B"})
+
+# Are micro and macro the same number on this data? (Corollary 1: equal per-class denominators)
+denominator_balance(im, "recall")["balanced"]
 ```
 
 ---

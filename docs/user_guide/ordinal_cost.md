@@ -85,3 +85,27 @@ grades is not inferred from the largest label.
   statement of the loss.
 - Use **the ordinal encoding** when the order matters but you cannot price the errors; the
   per-threshold values also show where on the scale the classifier is weakest.
+
+## A taxonomy as a cost matrix
+
+Hierarchical classification is the cost-sensitive construction with a distance in the class tree
+in place of the difference of ranks. The paper leaves the choice of distance to the user.
+`tree_cost_matrix` builds the most common one, the number of edges between two classes:
+
+```python
+import numpy as np
+from aggmetrics import IndicatorMatrix, tree_cost_matrix
+
+tree = {"root": None, "A": "root", "B": "root", "a1": "A", "a2": "A", "b1": "B"}
+C = tree_cost_matrix(tree)                  # the leaves a1, a2, b1: [[0, 2, 4], [2, 0, 4], [4, 4, 0]]
+
+y = np.array([0, 0, 1, 2, 2, 1])
+p = np.array([0, 1, 1, 0, 2, 2])
+im = IndicatorMatrix(y, p, task="multiclass")
+im.cost(C)                                  # 10.0, the total hierarchical loss
+im.cost(C) / im.n                           # 1.667 per example
+```
+
+The taxonomy is a mapping from each node to its parent, with `None` for the root. By default the
+classes are the leaves, in the order of the mapping, and `classes=[...]` chooses other nodes and
+another order, which must be the order of the columns of the indicator matrix.

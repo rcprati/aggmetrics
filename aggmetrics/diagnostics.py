@@ -120,6 +120,38 @@ def micro_macro_gap(im, measure: str | BinaryMeasure) -> dict:
     return out
 
 
+def _is_structural(meas) -> bool:
+    """True if the denominator depends only on the total count (such as ``n``)."""
+    a, b = (1.0, 2.0, 3.0, 4.0), (4.0, 3.0, 2.0, 1.0)      # the same total
+    return meas.denominator(a) == meas.denominator(b)
+
+
+def denominator_balance(im, measure: str | BinaryMeasure) -> dict:
+    """Per-class denominators of a decomposable measure, and whether they are equal.
+
+    By Corollary 1 of the companion paper, micro-averaging equals unweighted
+    macro-averaging for every configuration of the per-class values if and only
+    if all per-class denominators are equal. For recall the denominator is the
+    class size, so micro and macro recall coincide on data whose classes have the
+    same size; for precision it is the number of predicted positives.
+
+    Returns ``{'measure', 'denominators', 'balanced', 'structural', 'micro',
+    'macro'}``: ``structural`` is true when the denominator is the same for every
+    confusion matrix with the same total (``error_rate``, ``label_accuracy``), so the
+    balance holds on any data and says nothing about this one.
+    """
+    meas = get_measure(measure)
+    if not meas.decomposable:
+        raise ValueError(f"{meas.name!r} is not aggregation-decomposable: Corollary 1 "
+                         "applies only to decomposable measures")
+    den = np.array([meas.denominator(tuple(row)) for row in im.per_class()], float)
+    equal = np.allclose(den, den[0], rtol=1e-9, atol=0)
+    balanced = bool(den.size > 1 and den[0] > 0 and equal)
+    return dict(measure=meas.name, denominators=den, balanced=balanced,
+                structural=_is_structural(meas),
+                micro=im.compute(meas, "micro"), macro=im.compute(meas, "macro"))
+
+
 def uniform_error_deviation(im) -> float:
     """Compute the mean uniform-error deviation across classes in multiclass OvR.
 
@@ -245,6 +277,27 @@ def diagnose(im, measures: Optional[Sequence[str]] = None,
                          f"equal to accuracy ({acc:.6f}) on single-label data; "
                          "reporting more than one of them adds no information."),
                 detail=dict(accuracy=acc, **vals),
+            ))
+
+    # 3b. equal per-class denominators: micro and macro coincide (Corollary 1), unless
+    #     that is so for every data set (a denominator that is the total count)
+    if im.m > 1:
+        for n in names:
+            meas = get_measure(n)
+            if not meas.decomposable:
+                continue
+            info = denominator_balance(im, meas)
+            if not info["balanced"] or info["structural"]:
+                continue
+            out.append(Finding(
+                code="balanced_denominators",
+                severity="note",
+                message=(f"all per-class denominators of {meas.name!r} are equal "
+                         f"({info['denominators'][0]:.6g}), so micro and macro "
+                         f"{meas.name} are the same number ({info['micro']:.6f}) on "
+                         "this data (Corollary 1); reporting both adds no "
+                         "information."),
+                detail=info,
             ))
 
     # 4. undefined per-class / per-example entries (with a single label the per-example

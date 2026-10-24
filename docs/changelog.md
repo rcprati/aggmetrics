@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- `under_prior`: evaluate a measure at another class prior (label shift), from the skew results of the
+  paper. Notebook 06 uses it in place of its hand-written reweighting (same numbers).
+- `multioutput_aggregate`: the target-wise operator of the paper for several targets, and the usual
+  operators over the block-structured matrix.
+- `tree_cost_matrix`: a cost matrix from the edge distances of a taxonomy (hierarchical classification).
+- `denominator_balance` and the `balanced_denominators` finding of `diagnose`: Corollary 1, micro equals
+  macro when the per-class denominators are equal (not reported for measures whose denominator is the
+  total count).
+- `aggmetrics.suites` and the new modules share one internal description of the cells as functions of
+  the rates (`aggmetrics._rates`).
+
 ## 0.2.0 (2026-10-24)
 
 Archived on Zenodo: [10.5281/zenodo.23618910](https://doi.org/10.5281/zenodo.23618910) for this version,
