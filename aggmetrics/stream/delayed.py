@@ -14,7 +14,7 @@ depend on the stand-ins; the label-side sums do, so a class can have mass in ``C
 without a verified instance. The evaluator therefore also keeps the verified part of
 the state and reports the verified and the interim support and the coverage.
 
-Temporal operators, as in :mod:`aggmetrics.stream.state` (here one is required):
+Temporal operators, as in :mod:`aggmetrics.stream.state`:
 
 ``alpha``  exponential fading, ``C <- alpha * C + term``; a label arriving after an
            instance has aged ``s`` steps is corrected with weight ``alpha ** s``;
@@ -23,7 +23,10 @@ Temporal operators, as in :mod:`aggmetrics.stream.state` (here one is required):
            decaying), which bounds the queue by
            :func:`aggmetrics.stream.sizing.queue_bound`;
 ``window`` the last ``window`` instances; a correction replaces the term stored for
-           the instance, and an instance that leaves the window cannot be corrected.
+           the instance, and an instance that leaves the window cannot be corrected;
+neither    the cumulative count: nothing is forgotten, so a label can be corrected
+           whenever it arrives and the queue grows with the number of instances
+           still waiting for a label.
 """
 from __future__ import annotations
 
@@ -53,7 +56,7 @@ class DelayedEvaluator:
     n_classes
         Number of classes.
     alpha, window
-        Exactly one: the fading factor, or the window size.
+        The fading factor, or the window size. Neither: cumulative.
     eps
         Fading only: eviction tolerance on the normalised weight of a queue entry.
         ``None`` keeps every eligible instance in the queue.
@@ -76,8 +79,6 @@ class DelayedEvaluator:
                  window: Optional[int] = None, eps: Optional[float] = None,
                  task: Optional[str] = None, tol: Optional[float] = None):
         _check_operator(alpha, window)
-        if (alpha is None) == (window is None):
-            raise ValueError("give exactly one of alpha and window")
         if eps is not None and alpha is None:
             raise ValueError("eps applies to exponential fading only")
         if eps is not None and eps <= 0:
@@ -118,6 +119,9 @@ class DelayedEvaluator:
             self._C = self.alpha * self._C + term
             self._V = self.alpha * self._V
             self._mass = self.alpha * self._mass + 1.0
+        elif self.window is None:                     # cumulative: nothing is forgotten
+            self._C = self._C + term
+            self._mass += 1.0
         else:
             self._C = self._C + term
             self._terms[k] = term
@@ -167,8 +171,9 @@ class DelayedEvaluator:
         else:
             self._C = self._C + (hard - soft)
             self._V = self._V + hard
-            self._terms[k] = hard
-            self._vterms[k] = hard
+            if self.window is not None:
+                self._terms[k] = hard
+                self._vterms[k] = hard
         return True
 
     # -- the state -----------------------------------------------------------

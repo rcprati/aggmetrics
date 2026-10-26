@@ -351,9 +351,27 @@ def test_window_correction_and_leaving():
 
 def test_delayed_evaluator_validation():
     with pytest.raises(ValueError):
-        DelayedEvaluator(2)
+        DelayedEvaluator(2, alpha=0.9, window=5)
     with pytest.raises(ValueError):
         DelayedEvaluator(2, window=5, eps=0.1)
+    with pytest.raises(ValueError):
+        DelayedEvaluator(2, eps=0.1)
+
+
+def test_cumulative_delayed_evaluator():
+    y, p = stream(120, 3, seed=17)
+    ev, ts = DelayedEvaluator(3), TemporalState(3)
+    stand = np.full(3, 1 / 3)
+    keys = [ev.arrive(stand, pp) for pp in p]            # nothing is labelled yet
+    assert ev.queue_size == 120 and ev.mass == 120
+    np.testing.assert_allclose(ev.C.sum(axis=0), np.bincount(p, minlength=3))
+    for k in keys[::-1]:                                  # labels arrive in any order, any time
+        assert ev.label(k, y[k])
+    for a, b in zip(y, p):
+        ts.update(a, b)
+    np.testing.assert_allclose(ev.C, ts.C)
+    np.testing.assert_allclose(ev.C_verified, ts.C)
+    assert ev.queue_size == 0 and ev.n_evicted == 0
 
 
 # -- sizing ---------------------------------------------------------------------------
