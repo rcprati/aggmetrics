@@ -2,6 +2,9 @@
 
 ## 0.3.0 (2026-11-01)
 
+Archived on Zenodo: [10.5281/zenodo.23867295](https://doi.org/10.5281/zenodo.23867295) for this version,
+[10.5281/zenodo.23535051](https://doi.org/10.5281/zenodo.23535051) for all versions. Published on PyPI on 2026-11-01.
+
 - New subpackage `aggmetrics.scores` (**experimental**, first part): calibration of unthresholded scores.
   `ScoreMatrix` holds labels and scores in `[0, 1]` (binary, multiclass or multilabel); deviation operators
   (`squared`, `absolute`, `log` as an extended-valued case, `power(s)`, or any `phi`) give the cell losses
