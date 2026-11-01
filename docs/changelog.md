@@ -1,7 +1,28 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 (2026-11-01)
 
+- New subpackage `aggmetrics.scores` (**experimental**, first part): calibration of unthresholded scores.
+  `ScoreMatrix` holds labels and scores in `[0, 1]` (binary, multiclass or multilabel); deviation operators
+  (`squared`, `absolute`, `log` as an extended-valued case, `power(s)`, or any `phi`) give the cell losses
+  and the Brier score, whose micro, macro and exemplar averages coincide. `conditional_errors` returns
+  `alpha_j` and `beta_j` (or the row version) with the mixture `pi * alpha + (1 - pi) * beta`;
+  `brier_under_prior` and `class_weighted_brier` use them. `murphy` gives the column or row Murphy
+  decomposition, unbinned (with a warning when it is degenerate) or binned, with the binning gap, or
+  `method='isotonic'` (CORP: isotonic recalibration, no bins, as in Dimitriadis, Gneiting and Jordan 2021),
+  with the aliases `miscalibration`, `discrimination` and `uncertainty`.
+  `check_properness` tests a deviation operator numerically.
+  Ranking (second part): `row_ranks` (min-rank, mid-rank or ordinal ties), weights `log_weight`,
+  `geometric(p)` and `top_k(k)`; the DCG family `dcg`/`dcg_parts` (raw, collapses) and `ndcg`/`ndcg_parts`
+  (micro, per-class, per-example; explicit convention for empty rows and classes); `precision_at_k`; the AUC
+  family `auc_cells` (concordance with half credit for ties), `auc_parts`, `auc` (macro, micro weighted by
+  positives, exemplar, raw), and `pooled_auc` for contrast with scikit-learn's micro ROC-AUC.
+  Diagnostics (third part): `ndcg_gaps` and `auc_gaps` write the micro, class and exemplar gaps as
+  covariances and per-class contributions; `ranking_duality` lists label pairs that per-class nDCG and AUC
+  order oppositely; `skew_report` replicates each class's positives and records which summaries move
+  (alpha, beta, AUC_j and nDCG_j do not); `properness_table`; `hard_bridge` checks `alpha_j = 1 - recall_j`
+  and `beta_j = 1 - specificity_j` against `IndicatorMatrix`; `diagnose_scores` returns `Finding` objects.
+  Documentation: user guide page, API page and gallery notebooks 13 to 16 (Brier and Murphy on yeast, ranking on yeast, prevalence and properness).
 - `under_prior`: evaluate a measure at another class prior (label shift), from the skew results of the
   paper. Notebook 06 uses it in place of its hand-written reweighting (same numbers).
 - `pu_correct`: the cells of positive-unlabeled data corrected for the labelling propensity (or the

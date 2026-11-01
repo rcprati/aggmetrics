@@ -13,6 +13,7 @@ The public names below are importable from ``aggmetrics`` directly.
    inference
    suites
    shift
+   scores
    multioutput
    costs
    pu

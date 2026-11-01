@@ -18,6 +18,10 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 | {doc}`10_custom_measures` | Register your own formula: what is inferred (decomposable, skew-invariant), what follows on data, and a piecewise measure on which the inference is wrong |
 | {doc}`11_torch_and_keras` | Evaluating framework models: logits, pooling batches instead of averaging a measure over them, accumulating counts, and a Keras callback that logs a measure per epoch |
 | {doc}`12_choosing_measures` | Remark 2 on data: which measures are redundant (rank of the Jacobian), the best pair for a binary problem, and why 63 aggregated measures span only 11 of the 90 directions of a ten-class confusion matrix |
+| {doc}`13_calibration_and_ranking` | Brier averages agree and nDCG and AUC averages do not: the covariance behind each gap, labels that nDCG and AUC order oppositely, and a Murphy decomposition that restates the Brier score unless binned or isotonic |
+| {doc}`14_calibration_on_yeast` | One Brier score whichever way it is averaged: the loss on positives and negatives, and a Murphy decomposition (binned and isotonic) of three classifiers; unbinned it restates the Brier score for continuous scores |
+| {doc}`15_ranking_on_yeast` | Seven ways to score the same three classifiers: ties flatter kNN (nDCG above 1 under min-rank), every gap is a covariance, and nDCG and AUC order the labels differently |
+| {doc}`16_prevalence_and_properness` | Replicating the positives of each label: what moves and what does not; which scoring rules are proper; and the bridge to recall and specificity on 0/1 scores |
 
 ```{toctree}
 :hidden:
@@ -34,4 +38,8 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 10_custom_measures
 11_torch_and_keras
 12_choosing_measures
+13_calibration_and_ranking
+14_calibration_on_yeast
+15_ranking_on_yeast
+16_prevalence_and_properness
 ```
