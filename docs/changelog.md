@@ -22,7 +22,7 @@
   order oppositely; `skew_report` replicates each class's positives and records which summaries move
   (alpha, beta, AUC_j and nDCG_j do not); `properness_table`; `hard_bridge` checks `alpha_j = 1 - recall_j`
   and `beta_j = 1 - specificity_j` against `IndicatorMatrix`; `diagnose_scores` returns `Finding` objects.
-  Documentation: user guide page, API page and gallery notebook 13.
+  Documentation: user guide page, API page and gallery notebooks 13 to 16 (Brier and Murphy on yeast, ranking on yeast, prevalence and properness).
 - `under_prior`: evaluate a measure at another class prior (label shift), from the skew results of the
   paper. Notebook 06 uses it in place of its hand-written reweighting (same numbers).
 - `pu_correct`: the cells of positive-unlabeled data corrected for the labelling propensity (or the
