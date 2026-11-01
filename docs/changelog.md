@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 (2026-11-01)
 
 - New subpackage `aggmetrics.scores` (**experimental**, first part): calibration of unthresholded scores.
   `ScoreMatrix` holds labels and scores in `[0, 1]` (binary, multiclass or multilabel); deviation operators
