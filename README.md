@@ -134,6 +134,9 @@ whose optimal decision rule is not the Bayes rule for 0/1 loss.
 - **Prior shift**: `under_prior` evaluates a measure at another class prevalence, and
   `multioutput_aggregate` handles several targets, and `pu_correct` corrects positive-unlabeled
   data for the labelling propensity.
+- **Scores** (experimental, `aggmetrics.scores`): Brier and other deviation operators with the
+  class-conditional errors, Murphy decompositions (unbinned, binned, isotonic), nDCG and AUC
+  under the three aggregations, and diagnostics that say why they disagree.
 - **Observation masks** for partial labels, semi-supervised evaluation and abstention.
 - **scikit-learn scorers** via `make_scorer`, usable in `cross_val_score` and
   `GridSearchCV`.
@@ -187,6 +190,7 @@ practitioner recognises, shows what the usual tools report, and then what `aggme
 | [10 Custom measures](examples/notebooks/10_custom_measures.ipynb) | Register your own formula: what is inferred (decomposable, skew-invariant), what follows on data, and a piecewise measure on which the inference is wrong | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/10_custom_measures.ipynb) |
 | [11 PyTorch and Keras](examples/notebooks/11_torch_and_keras.ipynb) | Evaluating framework models: logits, pooling batches instead of averaging a measure over them (macro-MCC 11% higher in the averaged form), accumulating counts, and a Keras callback that logs a measure per epoch | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/11_torch_and_keras.ipynb) |
 | [12 Choosing measures](examples/notebooks/12_choosing_measures.ipynb) | Remark 2 on data: which measures are redundant (rank of the Jacobian), the best pair for a binary problem, and why 63 aggregated measures span only 11 of the 90 directions of a ten-class confusion matrix | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/12_choosing_measures.ipynb) |
+| [13 Calibration and ranking](examples/notebooks/13_calibration_and_ranking.ipynb) | Brier averages agree and nDCG and AUC averages do not: the covariance behind each gap, labels that nDCG and AUC order oppositely, and a Murphy decomposition that restates the Brier score unless binned or isotonic | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rcprati/aggmetrics/blob/main/examples/notebooks/13_calibration_and_ranking.ipynb) |
 
 The notebooks and their data are in the repository, not in the pip package. The Colab badges
 need nothing installed. To run them locally, clone the repository (the `examples` extra installs

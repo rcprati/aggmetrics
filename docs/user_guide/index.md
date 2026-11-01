@@ -13,6 +13,7 @@ model_comparison
 custom_measures
 suites
 prior_shift
+scores
 pu_learning
 sklearn
 ```
