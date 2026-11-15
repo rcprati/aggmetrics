@@ -259,6 +259,20 @@ The package itself is described in a preprint ([arXiv:2610.30456](https://arxiv.
 }
 ```
 
+The calibration and ranking part of the package, `aggmetrics.scores`, is described in a second preprint
+([arXiv:2611.02215](https://arxiv.org/abs/2611.02215)):
+
+```bibtex
+@misc{prati2026discrimination,
+  author        = {Prati, Ronaldo C. and Johari, Farangis},
+  title         = {Discrimination, Calibration, and Ranking: A Unified Matrix Framework},
+  year          = {2026},
+  eprint        = {2611.02215},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG}
+}
+```
+
 ## License
 
 BSD 3-Clause.
