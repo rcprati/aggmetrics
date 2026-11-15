@@ -43,3 +43,18 @@ references:
         value: "arXiv:2610.30456"
     url: "https://arxiv.org/abs/2610.30456"
     notes: "Preprint describing the package."
+  - type: article
+    title: "Discrimination, Calibration, and Ranking: A Unified Matrix Framework"
+    authors:
+      - family-names: Prati
+        given-names: Ronaldo Cristiano
+      - family-names: Johari
+        given-names: Farangis
+    journal: arXiv
+    year: 2026
+    month: 11
+    identifiers:
+      - type: other
+        value: "arXiv:2611.02215"
+    url: "https://arxiv.org/abs/2611.02215"
+    notes: "Preprint describing aggmetrics.scores (calibration and ranking of scores)."
