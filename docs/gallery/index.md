@@ -22,6 +22,7 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 | {doc}`14_calibration_on_yeast` | One Brier score whichever way it is averaged: the loss on positives and negatives, and a Murphy decomposition (binned and isotonic) of three classifiers; unbinned it restates the Brier score for continuous scores |
 | {doc}`15_ranking_on_yeast` | Seven ways to score the same three classifiers: ties flatter kNN (nDCG above 1 under min-rank), every gap is a covariance, and nDCG and AUC order the labels differently |
 | {doc}`16_prevalence_and_properness` | Replicating the positives of each label: what moves and what does not; which scoring rules are proper; and the bridge to recall and specificity on 0/1 scores |
+| {doc}`17_data_streams` | A fading F1 falls when only the class prior changes: the F1 at a reference prior, rates free of the prior, attribution of a change to concept or prior, labels that arrive late (interim estimates and when they fail) and window sizing for a rare class |
 
 ```{toctree}
 :hidden:
@@ -42,4 +43,5 @@ scikit-learn, pandas and matplotlib, and are executed in continuous integration.
 14_calibration_on_yeast
 15_ranking_on_yeast
 16_prevalence_and_properness
+17_data_streams
 ```

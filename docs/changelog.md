@@ -13,6 +13,8 @@
   to size a window or a fading factor before deployment. `RateMonitor` and `calibrate_threshold` are a
   chi-square monitor of the rates and its calibration. Needs only NumPy.
 - `Rates.from_confusion` builds the rates model from a confusion matrix (internal, used by the stream states).
+- Gallery notebook 17 (data streams): label shift against concept drift, attribution, late labels and window sizing, on simulated streams.
+- Skill: checklist item 11 and recipe 12 for streams.
 
 ## 0.3.0 (2026-11-01)
 
