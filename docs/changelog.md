@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 (2026-11-16)
 
 - New subpackage `aggmetrics.stream` (**experimental**): prequential evaluation of data streams.
   `TemporalState` keeps a confusion matrix under exponential fading or a sliding window and evaluates
