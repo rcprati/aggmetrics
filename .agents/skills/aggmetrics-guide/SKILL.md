@@ -54,6 +54,11 @@ notebooks show on real data.
 10. **Do not report measures that are functions of each other.** `suite_rank(im, measures)` says how many
    of them are independent at this model; with more than two classes, aggregated measures span few of the
    directions of the confusion matrix, so show the matrix or the per-class rates too (notebook 12).
+11. **For a stream, a fading number is not a verdict.** A drop in a fading F1 can be a change of class
+   prior and not a worse model: compute the measure at a reference prior (`compute(..., prior=)`), watch
+   recall and specificity, and use `attribute` to classify a change a monitor already flagged. With late
+   labels, report the verified share (`coverage`) and treat precision on stand-ins as an estimate; size the
+   window for the rarest class (`stream` is experimental; notebook 17).
 
 ---
 
@@ -253,6 +258,35 @@ pu_correct(pu_im, propensity=0.5).compute("precision")   # 0.6, against 0.3 nomi
 # Are micro and macro the same number on this data? (Corollary 1: equal per-class denominators)
 denominator_balance(im, "recall")["balanced"]
 ```
+
+### 12. Data Streams (experimental)
+
+```python
+import numpy as np
+from aggmetrics.stream import DelayedEvaluator, TemporalState, attribute, sizing
+
+rng = np.random.default_rng(0)
+y = (rng.random(2000) < 0.3).astype(int)
+y_pred = (rng.random(2000) < np.where(y == 1, 0.8, 0.1)).astype(int)
+
+state = TemporalState(2, alpha=0.99)                  # or window=200
+for yt, yp in zip(y, y_pred):                          # the prequential loop
+    state.update(yt, yp)
+state.compute("f1")                                    # the usual F1 of the fading matrix
+state.compute("f1", prior=0.30)                        # the same rates at a reference prior
+ref = state.snapshot()                                 # later: attribute("f1", ref, state.snapshot()).triage()
+
+# labels that arrive late: an interim term (the model's probabilities) until the label comes
+ev = DelayedEvaluator(2, alpha=0.98, eps=1e-3)
+k = ev.arrive(np.array([0.3, 0.7]), 1)                 # calibrated class probabilities, prediction
+ev.label(k, 1)                                         # when the label arrives
+ev.compute("recall"), ev.coverage()                    # coverage: verified share of each class
+
+sizing.required_window(0.02, 0.05, delay=25)           # window so a 2% class is missing at most 5% of the time
+```
+
+`attribute` classifies a change that a monitor flagged (concept or prior); it does not detect change.
+Precision and F1 on stand-ins are biased when the model is not calibrated. See notebook 17.
 
 ---
 
