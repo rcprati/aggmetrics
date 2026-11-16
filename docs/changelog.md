@@ -2,6 +2,9 @@
 
 ## 0.4.0 (2026-11-16)
 
+Archived on Zenodo: [10.5281/zenodo.24291757](https://doi.org/10.5281/zenodo.24291757) for this version,
+[10.5281/zenodo.23535051](https://doi.org/10.5281/zenodo.23535051) for all versions. Published on PyPI on 2026-11-16.
+
 - New subpackage `aggmetrics.stream` (**experimental**): prequential evaluation of data streams.
   `TemporalState` keeps a confusion matrix under exponential fading or a sliding window and evaluates
   every measure of the registry on it, with the aggregation operators, the zero-division conventions, the
